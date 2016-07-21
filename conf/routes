@@ -11,12 +11,18 @@
 
 
 
-GET         /user                   controllers.UserController.index
-POST        /user/add               controllers.UserController.addUser
-GET         /user/delete/:id        controllers.UserController.deleteUser(id : Long)
-GET        /user/:id               controllers.UserController.getUser(id: Long)
-POST       /user/update              controllers.UserController.updateUser
+GET        /user                   controllers.UserController.index
+POST       /user/add               controllers.UserController.addUser
+GET        /user/delete/:id        controllers.UserController.deleteUser(id : Long)
+GET        /user/:id                controllers.UserController.getUser(id: Long)
+POST       /user/update/:id         controllers.UserController.updateUser(id: Long)
 
+
+GET        /graySystem                   controllers.UserController.index
+POST       /graySystem/add               controllers.UserController.addUser
+GET        /graySystem/delete/:id        controllers.UserController.deleteUser(id : Long)
+GET        /graySystem/:id                controllers.UserController.getUser(id: Long)
+POST       /graySystem/update/:id         controllers.UserController.updateUser(id: Long)
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
+GET        /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
 

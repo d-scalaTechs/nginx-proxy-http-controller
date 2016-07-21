@@ -45,11 +45,11 @@ class UserController@Inject()(userService: UserService) extends Controller {
     }
   }
 
-  def updateUser = Action.async { implicit request =>
+  def updateUser(id: Long) = Action.async { implicit request =>
     UserForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.user.render(errorForm, Seq.empty[models.User],false))),
       data => {
-        val newUser = models.User(0, data.firstName, data.lastName, data.mobile, data.email)
+        val newUser = models.User(id, data.firstName, data.lastName, data.mobile, data.email)
         userService.updateUser(newUser).map(res =>
           Redirect("/user")
         )

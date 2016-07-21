@@ -1,17 +1,17 @@
-@()(userForm: Form[pojos.UserFormData],users : Seq[models.User],toUpdate : Boolean)
+@()(graySystemForm: Form[pojos.GraySystemFormData],graySystems : Seq[models.GraySystem],toUpdate : Boolean)
 <div>
-    @for(error<-userForm.errors){
+    @for(error<-graySystemForm.errors){
         @error.message
     }
 </div>
-<form id="user-data-form" role="form" action='@if(!toUpdate){/user/add}else{/user/update/@users.head.id}' method="post" class="form-horizontal" align="center" autocomplete="off">
+<form id="user-data-form" role="form" action='@if(!toUpdate){/graySystem/add}else{/graySystem/update/@graySystems.head.id}' method="post" class="form-horizontal" align="center" autocomplete="off">
 
-    <fieldset class="user-fieldset">
+    <fieldset class="graySystem-fieldset">
 
-        <div class="user-form">
+        <div class="graySystem-form">
             <label class="form-title" style="color: #F8741B; font-size: 22px;font-weight: bold; text-decoration:none">@if(!toUpdate){新增}else{修改}</label>
              @if(toUpdate){
-                <input type="hidden" id="id" name="id" value="@users.head.id"/>
+                <input type="hidden" id="id" name="id" value="@graySystems.head.id"/>
             }
         </div>
         <br/>
@@ -33,9 +33,9 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                 @if(!toUpdate){
-                                    <input type="text" id="firstName" name="firstName" value="" placeholder="First Name" class="form-control input-lg" required>
+                                    <input type="text" id="name" name="name" value="" placeholder="System Name" class="form-control input-lg" required>
                                 }else{
-                                    <input type="text" id="firstName" name="firstName" value="@users.head.firstName" placeholder="First Name" class="form-control input-lg" required>
+                                    <input type="text" id="name" name="name" value="@graySystems.head.name" placeholder="System Name" class="form-control input-lg" required>
                                 }
 
                             </div>
@@ -60,9 +60,9 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                 @if(!toUpdate){
-                                <input type="text" id="lastName" name="lastName" value="" placeholder="Last Name" class="form-control input-lg" required>
+                                <input type="text" id="description" name="description" value="" placeholder="description" class="form-control input-lg" required>
                                 }else{
-                                  <input type="text" id="lastName" name="lastName" value="@users.head.lastName" placeholder="Last Name" class="form-control input-lg" required>
+                                  <input type="text" id="description" name="description" value="@graySystems.head.description" placeholder="description" class="form-control input-lg" required>
                                 }
                             </div>
                         </div>
@@ -86,35 +86,9 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                 @if(!toUpdate){
-                                     <input type="tel" id="mobile" name="mobile" placeholder="Mobile" class="form-control input-lg" required>
+                                     <input type="tel" id="entrance" name="entrance" placeholder="entrance" class="form-control input-lg" required>
                                 }else{
-                                     <input type="tel" id="mobile" name="mobile" value="@users.head.mobile"  placeholder="Mobile" class="form-control input-lg" required>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">
-                    <div class="user-form" id="email_field_label">
-                        <div class="controls col-xs-offset-3 col-xs-9">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                <strong>email</strong> :
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td align="center">
-                    <div class="user-form" id="email_field_value">
-                        <div class="controls col-xs-offset-3 col-xs-9">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                @if(!toUpdate){
-                                    <input type="email" id="email" name="email" placeholder="Email" class="form-control input-lg" required>
-                                }else{
-                                    <input type="email" id="email" name="email" value="@users.head.email" placeholder="Email" class="form-control input-lg" required>
+                                     <input type="tel" id="entrance" name="entrance" value="@graySystems.head.entrance"  placeholder="Mobile" class="form-control input-lg" required>
                                 }
                             </div>
                         </div>
@@ -142,15 +116,14 @@
                     <th>mobile</th>
                     <th>email</th>
                 </tr>
-                @for(user <- users){
+                @for(graySystem <- graySystems){
                     <tr>
-                        <td>@user.id</td>
-                        <td>@user.firstName</td>
-                        <td>@user.lastName</td>
-                        <td>@user.mobile</td>
-                        <td>@user.email</td>
-                        <td><a href="/user/delete/@user.id">delete</a></td>
-                        <td><a href="/user/@user.id">update</a></td>
+                        <td>@graySystem.id</td>
+                        <td>@graySystem.name</td>
+                        <td>@graySystem.description</td>
+                        <td>@graySystem.entrance</td>
+                        <td><a href="/graySystem/delete/@graySystem.id">delete</a></td>
+                        <td><a href="/graySystem/@graySystem.id">update</a></td>
                     </tr>
                 }
             </table>

@@ -37,6 +37,7 @@ class Users @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) ex
   }
 
   def update(user: User): Future[Int] = {
+    println(user)
     db.run(users.filter(_.id === user.id).update(user))
   }
   def get(id: Long): Future[Option[User]] = {
