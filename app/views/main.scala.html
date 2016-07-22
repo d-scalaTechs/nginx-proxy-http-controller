@@ -17,7 +17,21 @@
     </head>
     <body>
         @* And here's where we render the `Html` object containing
-         * the page content. *@
+         * the page content.
+        *@
+        <div style="padding-left: 30%">
+                 &nbsp;&nbsp;&nbsp;服务治理功能
+            <ul>
+                <li> 1. 列出服务注册的所有机器地址， 注册时间</li>
+                <li> 2. 点击某个机器地址， 列出其下面所有的服务，版本号，启动时间</li>
+                <li> 3. 选择页面中的服务， 能够调用命令行工具具备的所有功能</li>
+                <li> 4. 可在页面对机器地址进行停用， 启用， (主从切换)。</li>
+                <li> 5. 对所有的服务，进行停用，启用。</li>
+                <li> 6. 微服务部署的网页操作功能。</li>
+                <li> 7. 安全设计</li>
+            </ul>
+        </div>
         @content
+
     </body>
 </html>

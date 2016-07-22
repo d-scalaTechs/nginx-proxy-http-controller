@@ -1,0 +1,161 @@
+@()(grayConfigForm: Form[pojos.GrayConfigFormData],grayConfigs : Seq[models.GrayConfig],toUpdate : Boolean)
+<div>
+    @for(error<-grayConfigForm.errors){
+        @error.message
+    }
+</div>
+<form id="user-data-form" role="form" action='@if(!toUpdate){/grayConfig/add}else{/grayConfig/update/@grayConfigs.head.id}' method="post" class="form-horizontal" align="center" autocomplete="off">
+
+    <fieldset class="grayConfig-fieldset">
+
+        <div class="grayConfig-form">
+            <label class="form-title" style="color: #F8741B; font-size: 22px;font-weight: bold; text-decoration:none">@if(!toUpdate){新增}else{修改}</label>
+            @if(toUpdate){
+                <input type="hidden" id="id" name="id" value="@grayConfigs.head.id"/>
+            }
+        </div>
+        <br/>
+        <table align="center" cellspacing="20">
+            <tr>
+                <td align="left">
+                    <div class="user-form" id="firstName_field_label">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <strong>firstname</strong> :
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td align="center">
+                    <div class="user-form" id="firstName_field_value">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                @if(!toUpdate){
+                                    <input type="text" id="system" name="system" value="" placeholder="Config Name" class="form-control input-lg" required>
+                                }else{
+                                    <input type="text" id="system" name="system" value="@grayConfigs.head.system" placeholder="Config Name" class="form-control input-lg" required>
+                                    }
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <div class="user-form" id="lastName_field_label">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <strong>lastname</strong> :
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td align="center">
+                    <div class="user-form" id="lastName_field_value">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                @if(!toUpdate){
+                                    <input type="text" id="key" name="key" value="" placeholder="description" class="form-control input-lg" required>
+                                }else{
+                                    <input type="text" id="key" name="key" value="@grayConfigs.head.key" placeholder="description" class="form-control input-lg" required>
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <div class="user-form" id="mobile_field_label">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <strong>mobile</strong> :
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td align="center">
+                    <div class="user-form" id="mobile_field_value">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                @if(!toUpdate){
+                                    <input type="tel" id="value" name="value" placeholder="entrance" class="form-control input-lg" required>
+                                }else{
+                                    <input type="tel" id="value" name="value" value="@grayConfigs.head.value"  placeholder="Mobile" class="form-control input-lg" required>
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <div class="user-form" id="mobile_field_label">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <strong>mobile</strong> :
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td align="center">
+                    <div class="user-form" id="mobile_field_value">
+                        <div class="controls col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                @if(!toUpdate){
+                                    <input type="tel" id="targetId" name="targetId" placeholder="entrance" class="form-control input-lg" required>
+                                }else{
+                                    <input type="tel" id="targetId" name="targetId" value="@grayConfigs.head.targetId"  placeholder="Mobile" class="form-control input-lg" required>
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <div class="form-actions controls ynt-btn-xlarge">
+            <button type="submit" class="btn btn-primary ynt-btn-orange"> @if(toUpdate){update}else{Add}</button>
+        </div>
+
+    </fieldset>
+</form>
+
+@if(!toUpdate){
+    <div class="user-display" >
+        <fieldset>
+            <legend align="center"><h3>Registered Users</h3></legend>
+            <table cellspacing="20">
+                <tr>
+                    <th>id</th>
+                    <th>system</th>
+                    <th>key</th>
+                    <th>value</th>
+                    <th>targetId</th>
+                    <th>updatedAt</th>
+                </tr>
+                @for(grayConfig <- grayConfigs){
+                    <tr>
+                        <td>@grayConfig.id</td>
+                        <td>@grayConfig.system</td>
+                        <td>@grayConfig.key</td>
+                        <td>@grayConfig.value</td>
+                        <td>@grayConfig.targetId</td>
+                        <td>@grayConfig.updatedAt</td>
+                        <td><a href="/grayConfig/delete/@grayConfig.id">delete</a></td>
+                        <td><a href="/grayConfig/@grayConfig.id">update</a></td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+}
