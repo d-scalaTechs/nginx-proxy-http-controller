@@ -53,9 +53,9 @@ class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   def list(id: Long): Future[Seq[GraySystem]] = {
     db.run(graySystems
-      .joinLeft(grayConfigs)
+      .join(grayConfigs)
       .on((t1,t2) => t1.id === t2.targetId )
-      .filter{case (t1, t2) => t1.id === id }
+      .filter{case (t1, t2) => t2.system === id }
       .map{ case (t1, t2) => t1 }.result )
   }
 }

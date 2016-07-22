@@ -1,4 +1,5 @@
-@(message: String)
+@import models._
+@()(graySystems : Seq[GraySystem])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,13 +60,13 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav side-nav">
                         <li class="active">
-                            <a href="/index.html"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
+                            <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
                         </li>
                         <li>
-                            <a href="/hosts.html"><i class="fa fa-fw fa-table"></i>WEB</a>
+                            <a href="/graySystem/conf/1"><i class="fa fa-fw fa-table"></i>WEB</a>
                         </li>
                         <li>
-                            <a href="/services.html/all"><i class="fa fa-fw fa-edit"></i>OSS</a>
+                            <a href="/graySystem/conf/2"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
                     </ul>
                 </div>
@@ -80,13 +81,13 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h1 class="page-header">
-                                服务治理功能 <small>功能列表</small>
+                                灰度系统 <small>列表</small>
                             </h1>
-                            <ol class="breadcrumb">
-                                <li class="active">
-                                    <i class="fa fa-dashboard"></i>功能概览
-                                </li>
-                            </ol>
+                            @*<ol class="breadcrumb">*@
+                                @*<li class="active">*@
+                                    @*<i class="fa fa-dashboard"></i>概览*@
+                                @*</li>*@
+                            @*</ol>*@
                         </div>
                     </div>
 
@@ -98,56 +99,35 @@
                     <div class="row">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>目标</h3>
+                                    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;概览</h3>
                                 </div>
                                 <div class="panel-body">
                                         <!-- /.row -->
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-6">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <i class="fa fa-comments fa-5x"></i>
+                                        @for(graySystem<-graySystems){
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                            <div class="row">
+                                                                <div class="col-xs-3">
+                                                                    <i class="fa fa-comments fa-5x"></i>
+                                                                </div>
+                                                                <div class="col-xs-9 text-right">
+                                                                    <div class="huge"></div>
+                                                                    <div>@graySystem.name</div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="huge">1</div>
-                                                            <div>列出服务注册的所有机器地址， 注册时间</div>
-                                                        </div>
+                                                        <a href="/hosts.html">
+                                                            <div class="panel-footer">
+                                                                <span class="pull-left">@graySystem.description</span>
+                                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                                <a href="/hosts.html">
-                                                    <div class="panel-footer">
-                                                        <span class="pull-left">详情</span>
-                                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6">
-                                            <div class="panel panel-green">
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <i class="fa fa-tasks fa-5x"></i>
-                                                        </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="huge">2</div>
-                                                            <div>点击某个机器地址， 列出其下面所有的服务，版本号</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <a href="/services.html/all">
-                                                    <div class="panel-footer">
-                                                        <span class="pull-left">详情</span>
-                                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
+                                        }
                                     </div>
                                         <!-- /.row -->
                                 </div>

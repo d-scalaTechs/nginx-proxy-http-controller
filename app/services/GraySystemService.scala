@@ -29,4 +29,7 @@ class GraySystemService @Inject() (graySystems: GraySystems)  {
   def listAllGraySystems: Future[Seq[GraySystem]] = {
     graySystems.listAll
   }
+  def listAllGraySystemsByConf(id: Long): Future[Seq[GraySystem]] = {
+    graySystems.list(id)
+  }
 }

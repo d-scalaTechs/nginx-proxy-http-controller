@@ -18,13 +18,19 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
   def index = Action.async { implicit request =>
     graySystem.listAllGraySystems map { graySystems =>
-      Ok(views.html.graySystem.render(GraySystemForm.form, graySystems,false))
+      Ok(views.html.graySystem.render(graySystems))
+    }
+  }
+
+  def indexByConf(systemId:Long) = Action.async { implicit request =>
+    graySystem.listAllGraySystemsByConf(systemId) map { graySystems =>
+      Ok(views.html.graySystem.render(graySystems))
     }
   }
 
   def addGraySystem() = Action.async { implicit request =>
     GraySystemForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(views.html.graySystem.render(errorForm, Seq.empty[models.GraySystem],false))),
+      errorForm => Future.successful(Ok(views.html.graySystem.render(Seq.empty[models.GraySystem]))),
       data => {
         val newGraySystem = models.GraySystem(0, data.name, data.description, data.entrance)
         graySystem.addGraySystem(newGraySystem).map(res =>
@@ -41,7 +47,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
   def updateGraySystem(id: Long) = Action.async { implicit request =>
     GraySystemForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(views.html.graySystem.render(errorForm, Seq.empty[models.GraySystem],false))),
+      errorForm => Future.successful(Ok(views.html.graySystem.render(Seq.empty[models.GraySystem]))),
       data => {
         val newGraySystem = models.GraySystem(id, data.name, data.description, data.entrance)
         graySystem.updateGraySystem(newGraySystem).map(res =>
@@ -52,7 +58,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
 
   def getGraySystem(id: Long) = Action.async { implicit request =>
-      graySystem.getGraySystem(id) map { graySystem => Ok(views.html.graySystem.render(GraySystemForm.form, Seq(graySystem.get),true))
+      graySystem.getGraySystem(id) map { graySystem => Ok(views.html.graySystem.render(Seq(graySystem.get)))
     }
   }
 }
