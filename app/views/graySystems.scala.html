@@ -1,4 +1,5 @@
-@()(grayConfigForm: Form[pojos.GrayConfigFormData],grayConfigs : Seq[models.GrayConfig],toUpdate : Boolean)
+@()(graySystem:GraySystem, grayConfigs : Seq[models.GrayConfig])
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,10 +59,10 @@
                     <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav side-nav">
-                        <li class="active">
+                        <li>
                             <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="/graySystem/conf/1"><i class="fa fa-fw fa-table"></i>WEB</a>
                         </li>
                         <li>
@@ -79,76 +80,104 @@
                         <!-- Page Heading -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header">
-                                服务治理功能 <small>功能列表</small>
-                            </h1>
-                            <ol class="breadcrumb">
-                                <li class="active">
-                                    <i class="fa fa-dashboard"></i>功能概览
-                                </li>
-                            </ol>
+                            <h2 class="page-header">
+                                @graySystem.name
+                            </h2>
+
                         </div>
                     </div>
 
-                    <div class="row">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>目标</h3>
-                                </div>
-                                <div class="panel-body">
-                                        <!-- /.row -->
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-6">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <i class="fa fa-comments fa-5x"></i>
-                                                        </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="huge">1</div>
-                                                            <div>列出服务注册的所有机器地址， 注册时间</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <a href="/hosts.html">
-                                                    <div class="panel-footer">
-                                                        <span class="pull-left">详情</span>
-                                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6">
-                                            <div class="panel panel-green">
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-xs-3">
-                                                            <i class="fa fa-tasks fa-5x"></i>
-                                                        </div>
-                                                        <div class="col-xs-9 text-right">
-                                                            <div class="huge">2</div>
-                                                            <div>点击某个机器地址， 列出其下面所有的服务，版本号</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <a href="/services.html/all">
-                                                    <div class="panel-footer">
-                                                        <span class="pull-left">详情</span>
-                                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
 
-                                    </div>
-                                        <!-- /.row -->
+                        <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">新增灰度名单</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form"  action="" align="center"  class="form-horizontal" autocomplete="off" method="post" >
+                                        <div class="form-group">
+                                            <label>灰度类型</label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="key" name="key" value=""checked>1
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="key" name="key" value="">2
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="key" name="key" value="">3
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>灰度值</label>
+                                            <input id="firstName" name="value" value="value" class="form-control" placeholder="请输入">
+                                        </div>
+                                        <button type="submit" class="btn btn-default">新增</button>
+                                        <button type="reset" class="btn btn-default">取消</button>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                            <!-- /.col-sm-4 -->
+                        <div class="col-sm-8">
+                            <div class="panel panel-green">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">服务信息</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <h4>名称：@graySystem.name</h4>
+                                    <h4>类型：WEB</h4>
+                                    <h4> 描述：@graySystem.description</h4>
+                                    <h4> 地址：@graySystem.entrance</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                         <!-- /.row -->
+
+
+                    <div>
+                        <div class="col-lg-8">
+                            <h3>灰度名单 <button class="btn  navbar-right top-nav btn-success" data-toggle="modal" data-target="#myModal">新增</button></h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>key</th>
+                                            <th>value</th>
+                                            <th>updated_at</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for(grayConfig <- grayConfigs){
+                                            <tr>
+                                                <td>@grayConfig.id</td>
+                                                <td>@grayConfig.key</td>
+                                                <td>@grayConfig.value</td>
+                                                <td>@grayConfig.updatedAt</td>
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.row-->
                 </div>
                     <!-- /.container-fluid -->
 
@@ -157,6 +186,10 @@
 
         </div>
             <!-- /#wrapper -->
+
+
+
+
 
             <!-- jQuery Version 1.11.0 -->
         <script src="@routes.Assets.versioned("js/jquery-1.11.0.js")"></script>

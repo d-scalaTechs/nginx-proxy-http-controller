@@ -6,7 +6,10 @@ import daos._
 import models._
 
 import scala.concurrent.Future
-
+/**
+ *
+ * @author Eric on 2016/7/21 15:55
+ */
 class GraySystemService @Inject() (graySystems: GraySystems)  {
 
   def addGraySystem(graySystem: GraySystem): Future[String] = {
@@ -22,7 +25,7 @@ class GraySystemService @Inject() (graySystems: GraySystems)  {
     graySystems.update(graySystem)
   }
 
-  def getGraySystem(id: Long): Future[Option[GraySystem]] = {
+  def getGraySystem(id: Long): Future[GraySystem] = {
     graySystems.get(id)
   }
 
@@ -31,5 +34,9 @@ class GraySystemService @Inject() (graySystems: GraySystems)  {
   }
   def listAllGraySystemsByConf(id: Long): Future[Seq[GraySystem]] = {
     graySystems.list(id)
+  }
+
+  def getGraySystemDetail(id: Long):Future[Seq[GrayConfig]] = {
+     graySystems.detail(id)
   }
 }

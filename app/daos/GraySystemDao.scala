@@ -43,8 +43,8 @@ class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     println(graySystem)
     db.run(graySystems.filter(_.id === graySystem.id).update(graySystem))
   }
-  def get(id: Long): Future[Option[GraySystem]] = {
-    db.run(graySystems.filter(_.id === id).result.headOption)
+  def get(id: Long): Future[GraySystem] = {
+    db.run(graySystems.filter(_.id === id).result.head)
   }
 
   def listAll: Future[Seq[GraySystem]] = {
@@ -57,5 +57,9 @@ class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
       .on((t1,t2) => t1.id === t2.targetId )
       .filter{case (t1, t2) => t2.system === id }
       .map{ case (t1, t2) => t1 }.result )
+  }
+
+  def detail(id:Long): Future[Seq[GrayConfig]]= {
+       db.run(grayConfigs.filter(_.targetId === id).result)
   }
 }

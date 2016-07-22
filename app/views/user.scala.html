@@ -4,7 +4,7 @@
         @error.message
     }
 </div>
-<form id="user-data-form" role="form" action='@if(!toUpdate){/user/add}else{/user/update/@users.head.id}' method="post" class="form-horizontal" align="center" autocomplete="off">
+<form id="user-data-form" role="form" action='@if(!toUpdate){/user/add}else{/user/update/@users.head.id}' method="post">
 
     <fieldset class="user-fieldset">
 

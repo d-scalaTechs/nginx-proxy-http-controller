@@ -5,7 +5,10 @@ import javax.inject.Inject
 import daos._
 import models._
 import scala.concurrent.Future
-
+/**
+ *
+ * @author Eric on 2016/7/21 15:55
+ */
 class UserService @Inject() (users: Users)  {
 
   def addUser(user: User): Future[String] = {

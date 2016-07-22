@@ -6,7 +6,10 @@ import daos._
 import models._
 
 import scala.concurrent.Future
-
+/**
+ *
+ * @author Eric on 2016/7/21 15:55
+ */
 class GrayConfigService @Inject() (grayConfigs: GrayConfigs)  {
 
   def addGrayConfig(greySystem: GrayConfig): Future[String] = {

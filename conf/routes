@@ -25,6 +25,7 @@ GET         /graySystem/:id               controllers.GreySystemController.getGr
 POST        /graySystem/update/:id        controllers.GreySystemController.updateGraySystem(id: Long)
 
 GET        /graySystem/conf/:id           controllers.GreySystemController.indexByConf(id: Long)
+GET        /graySystem/info/:id/:name/:des/:entrance      controllers.GreySystemController.detail(id: Long, name: String, des: String,entrance: String)
 
 
 GET        /grayConfig                   controllers.GreyConfigController.index
