@@ -28,6 +28,7 @@ class GraySystemTableDef(tag: Tag) extends Table[models.GraySystem](tag, "grey_s
 class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   val graySystems = TableQuery[GraySystemTableDef]
+  val grayConfigs = TableQuery[GrayConfigTableDef]
 
   def add(graySystem: GraySystem): Future[String] = {
     db.run(graySystems += graySystem).map(res => "graySystem successfully added").recover {
@@ -48,5 +49,13 @@ class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   def listAll: Future[Seq[GraySystem]] = {
     db.run(graySystems.result)
+  }
+
+  def list(id: Long): Future[Seq[GraySystem]] = {
+    db.run(graySystems
+      .joinLeft(grayConfigs)
+      .on((t1,t2) => t1.id === t2.targetId )
+      .filter{case (t1, t2) => t1.id === id }
+      .map{ case (t1, t2) => t1 }.result )
   }
 }

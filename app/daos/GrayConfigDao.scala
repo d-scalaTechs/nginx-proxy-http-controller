@@ -25,7 +25,7 @@ class GrayConfigTableDef(tag: Tag) extends Table[models.GrayConfig](tag, "grey_c
   def system = column[Long]("system")
   def key = column[String]("key")
   def value = column[String]("value")
-  def targetId = column[Int]("target_id")
+  def targetId = column[Long]("target_id")
   def updatedAt= column[Date]("updated_at")
   override def * =
     (id, system, key, value,targetId,updatedAt) <>(GrayConfig.tupled, GrayConfig.unapply)
