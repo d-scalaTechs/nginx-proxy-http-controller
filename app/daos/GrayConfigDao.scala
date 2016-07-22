@@ -4,6 +4,8 @@ package daos
  *
  * @author Eric on 2016/7/21 19:21
  */
+
+import java.util.Date
 import javax.inject.Inject
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
@@ -14,13 +16,17 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class GrayConfigTableDef(tag: Tag) extends Table[models.GrayConfig](tag, "grey_config") {
+  implicit val JavaUtilDateMapper =
+    MappedColumnType.base[java.util.Date, java.sql.Timestamp] (
+      d => new java.sql.Timestamp(d.getTime),
+      d => new java.util.Date(d.getTime))
 
   def id = column[Long]("id", O.PrimaryKey,O.AutoInc)
   def system = column[Long]("system")
-  def key = column[String]("last_name")
-  def value = column[String]("mobile")
-  def targetId = column[Int]("mobile")
-  def updatedAt= column[Long]("column")
+  def key = column[String]("key")
+  def value = column[String]("value")
+  def targetId = column[Int]("target_id")
+  def updatedAt= column[Date]("updated_at")
   override def * =
     (id, system, key, value,targetId,updatedAt) <>(GrayConfig.tupled, GrayConfig.unapply)
 }
@@ -30,8 +36,8 @@ class GrayConfigs @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   val grayConfigs = TableQuery[GrayConfigTableDef]
 
-  def add(graySystem: GrayConfig): Future[String] = {
-    db.run(grayConfigs += graySystem).map(res => "greySystem successfully added").recover {
+  def add(grayConfig: GrayConfig): Future[String] = {
+    db.run(grayConfigs += grayConfig).map(res => "greySystem successfully added").recover {
       case ex: Exception => ex.getCause.getMessage
     }
   }
@@ -39,9 +45,9 @@ class GrayConfigs @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     db.run(grayConfigs.filter(_.id === id).delete)
   }
 
-  def update(greySystem: GrayConfig): Future[Int] = {
-    println(greySystem)
-    db.run(grayConfigs.filter(_.id === greySystem.id).update(greySystem))
+  def update(grayConfig: GrayConfig): Future[Int] = {
+    println(grayConfig)
+    db.run(grayConfigs.filter(_.id === grayConfig.id).update(grayConfig))
   }
   def get(id: Long): Future[Option[GrayConfig]] = {
     db.run(grayConfigs.filter(_.id === id).result.headOption)

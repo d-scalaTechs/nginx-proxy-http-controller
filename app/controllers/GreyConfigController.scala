@@ -5,7 +5,7 @@ package controllers
  * @author Eric on 2016/7/21 15:55
  */
 
-import java.util.Date
+import java.sql.Date
 import javax.inject.{Inject, Singleton}
 
 import play.api.mvc.{Action, Controller}
@@ -28,7 +28,7 @@ class GreyConfigController@Inject()(grayConfig: GrayConfigService) extends Contr
     GrayConfigForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.grayConfig.render(errorForm, Seq.empty[models.GrayConfig],false))),
       data => {
-        val newGrayConfig = models.GrayConfig(0, data.system, data.key, data.value,data.targetId,new Date().getTime)
+        val newGrayConfig = models.GrayConfig(0, data.system, data.key, data.value,data.targetId,new Date(System.currentTimeMillis()))
         grayConfig.addGrayConfig(newGrayConfig).map(res =>
           Redirect("/grayConfig")
         )
@@ -45,7 +45,7 @@ class GreyConfigController@Inject()(grayConfig: GrayConfigService) extends Contr
     GrayConfigForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.grayConfig.render(errorForm, Seq.empty[models.GrayConfig],false))),
       data => {
-        val newGrayConfig = models.GrayConfig(id, data.system, data.key, data.value,data.targetId,new Date().getTime)
+        val newGrayConfig = models.GrayConfig(id, data.system, data.key, data.value,data.targetId,new Date(System.currentTimeMillis()))
         grayConfig.updateGrayConfig(newGrayConfig).map(res =>
           Redirect("/grayConfig")
         )
