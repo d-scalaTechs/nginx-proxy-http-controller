@@ -22,7 +22,8 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
     }
   }
 
-  def indexByConf(systemId:Long) = Action.async { implicit request =>
+  def indexByConf(grayType:String) = Action.async { implicit request =>
+    val systemId = if("web".equals(grayType)) 1l else if("oss".equals(grayType)){2l}else{0l}
     graySystem.listAllGraySystemsByConf(systemId) map { graySystems =>
       Ok(views.html.graySystem.render(graySystems))
     }

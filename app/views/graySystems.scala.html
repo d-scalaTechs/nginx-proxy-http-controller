@@ -63,10 +63,10 @@
                             <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
                         </li>
                         <li class="active">
-                            <a href="/graySystem/conf/1"><i class="fa fa-fw fa-table"></i>WEB</a>
+                            <a href="/graySystem/conf/web"><i class="fa fa-fw fa-table"></i>WEB</a>
                         </li>
                         <li>
-                            <a href="/graySystem/conf/2"><i class="fa fa-fw fa-edit"></i>OSS</a>
+                            <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
                     </ul>
                 </div>
@@ -97,22 +97,16 @@
                                     <h4 class="modal-title" id="myModalLabel">新增灰度名单</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form role="form"  action="" align="center"  class="form-horizontal" autocomplete="off" method="post" >
+                                    <form role="form"  action="/grayConfig/add"  method="post" >
+                                        <input type="hidden" id="system" name="system" value="1">
+                                        <input type="hidden" id="targetId" name="targetId" value="@graySystem.id">
                                         <div class="form-group">
                                             <label>灰度类型</label>
-                                            <label class="radio-inline">
-                                                <input type="radio" id="key" name="key" value=""checked>1
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" id="key" name="key" value="">2
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" id="key" name="key" value="">3
-                                            </label>
+                                            <input id="key" name="key" value="key" class="form-control" placeholder="请输入">
                                         </div>
                                         <div class="form-group">
                                             <label>灰度值</label>
-                                            <input id="firstName" name="value" value="value" class="form-control" placeholder="请输入">
+                                            <input id="value" name="value" value="value" class="form-control" placeholder="请输入">
                                         </div>
                                         <button type="submit" class="btn btn-default">新增</button>
                                         <button type="reset" class="btn btn-default">取消</button>

@@ -24,7 +24,7 @@ GET         /graySystem/delete/:id        controllers.GreySystemController.delet
 GET         /graySystem/:id               controllers.GreySystemController.getGraySystem(id: Long)
 POST        /graySystem/update/:id        controllers.GreySystemController.updateGraySystem(id: Long)
 
-GET        /graySystem/conf/:id           controllers.GreySystemController.indexByConf(id: Long)
+GET        /graySystem/conf/:grayType           controllers.GreySystemController.indexByConf(grayType: String)
 GET        /graySystem/info/:id/:name/:des/:entrance      controllers.GreySystemController.detail(id: Long, name: String, des: String,entrance: String)
 
 
