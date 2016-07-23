@@ -146,7 +146,7 @@
                         <div class="col-lg-8">
                             <h3>灰度名单 <button class="btn  navbar-right top-nav btn-success" data-toggle="modal" data-target="#myModal">新增</button></h3>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover" id="confs">
                                     <thead>
                                         <tr>
                                             <th>id</th>
@@ -213,5 +213,29 @@
         @*<script src="@routes.Assets.versioned("js/plugins/morris/morris-data.js")"></script>*@
 
     </body>
+
+    <script>
+
+    $(document).ready(function() {
+
+            $('#confs tbody').on('click', 'tr', function() {
+            var a=confirm("删除该灰度名单吗？");
+            if(a==true){
+                   alert($(this))
+                    $.ajax({
+                        type : "get",
+                        url : "/grayConfig/delete/",
+                        success : function(msg) {
+                        if(msg.rC==0){
+                                 table.fnDeleteRow(indexOfRecord,false,true);
+                        }else{
+                        alert("服务器繁忙，未删除成功");
+                        }
+                    }
+                    })
+                }
+            });
+    });
+    </script>
 
 </html>
