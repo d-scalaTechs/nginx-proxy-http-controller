@@ -129,13 +129,41 @@
                         <div class="col-sm-8">
                             <div class="panel panel-green">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">服务信息</h3>
+                                    <h3 class="panel-title">服务信息
+                                        <button id="edit" class="btn  navbar-right top-nav btn-success" >编辑</button>
+                                        <button id="cancel" class="btn  navbar-right top-nav btn-success" style="display: none">取消</button>
+                                    </h3>
                                 </div>
                                 <div class="panel-body">
-                                    <h4>名称：@graySystem.name</h4>
-                                    <h4>类型：WEB</h4>
-                                    <h4> 描述：@graySystem.description</h4>
-                                    <h4> 地址：@graySystem.entrance</h4>
+                                    <div id="graySystemPanel" >
+                                       <h4>名称：@graySystem.name</h4>
+                                       <h4>类型：WEB</h4>
+                                       <h4>地址：@graySystem.entrance</h4>
+                                       <h4>描述：@graySystem.description</h4>
+                                    </div>
+
+                                    <div id="graySystemForm" style="display: none">
+                                        <form role="form"  action="/graySystem/update/@graySystem.id"  method="post" >
+                                            <input type="hidden" id="system" name="system" value="1">
+                                            <div class="form-group">
+                                                <label>名称</label>
+                                                <input id="name" name="name" value="name" class="form-control" placeholder="请输入">
+                                            </div>
+                                            @*<div class="form-group">*@
+                                                @*<label>类型</label>*@
+                                                @*<input id="systemType" name="systemType" value="web" class="form-control" contenteditable="false">*@
+                                            @*</div>*@
+                                            <div class="form-group">
+                                                <label>地址</label>
+                                                <input id="entrance" name="entrance" value="@graySystem.description" class="form-control" placeholder="请输入">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>描述</label>
+                                                <input id="description" name="description" value="@graySystem.entrance" class="form-control" placeholder="请输入">
+                                            </div>
+                                            <button type="submit" class="btn btn-default">更改</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +174,7 @@
                     <div>
                         <div class="col-lg-8">
                             <h3>灰度名单 <button class="btn  navbar-right top-nav btn-success" data-toggle="modal" data-target="#myModal">新增</button>
-                                <a id="confDelete" class='btn btn-warning btn-circle'>删除</a>
+                                <button id="confDelete" class='btn navbar-right top-nav btn-warning btn-circle'>删除</button>
                             </h3>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover" id="confs">
@@ -210,18 +238,12 @@
         @*<script src="@routes.Assets.versioned("js/controllers/lcontroller.js")"></script>*@
         @*<script src="@routes.Assets.versioned("js/app.js")"></script>*@
 
-            <!-- Morris Charts JavaScript -->
-        @*<script src="@routes.Assets.versioned("js/plugins/morris/raphael.min.js")"></script>*@
-        @*<script src="@routes.Assets.versioned("js/plugins/morris/morris.min.js")"></script>*@
-        @*<script src="@routes.Assets.versioned("js/plugins/morris/morris-data.js")"></script>*@
-
     </body>
 
     <script>
 
     $(document).ready(function() {
             var table = $('#confs').dataTable();
-
 
             $('#confs tbody').on('click', 'tr', function() {
                 if ($(this).hasClass('selected')) {
@@ -238,7 +260,8 @@
                 var currentDisplay=$("select[class='form-control input-sm']").val();
                 var indexOfRecord=(currentIndex-1)*currentDisplay+trobj.index();
                 var node= table.fnGetNodes(indexOfRecord);
-                var rowData = table.fnGetData(node)
+                var rowData = table.fnGetData(node);
+                 var a=confirm("删除该灰度名单吗？");
                 $.ajax({
                     type : "get",
                     url : "/grayConfig/delete/"+rowData[0],
@@ -247,23 +270,22 @@
                     }
                 })
             });
-//            $('#confs tbody').on('click', 'tr', function() {
-//            var a=confirm("删除该灰度名单吗？");
-//            if(a==true){
-//                   alert($(this))
-//                    $.ajax({
-//                        type : "get",
-//                        url : "/grayConfig/delete/",
-//                        success : function(msg) {
-//                        if(msg.rC==0){
-//                                 table.fnDeleteRow(indexOfRecord,false,true);
-//                        }else{
-//                        alert("服务器繁忙，未删除成功");
-//                        }
-//                    }
-//                    })
-//                }
-//            });
+
+            $('#edit').click(function() {
+                $('#graySystemPanel').hide()
+                $('#graySystemForm').show()
+                $(this).hide();
+                $("#cancel").show();
+            });
+
+             $('#cancel').click(function() {
+                $('#graySystemForm').hide()
+                $('#graySystemPanel').show()
+                $(this).hide();
+                $("#edit").show();
+            });
+
+
     });
     </script>
 
