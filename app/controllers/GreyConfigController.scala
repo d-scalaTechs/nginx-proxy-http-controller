@@ -25,7 +25,6 @@ class GreyConfigController@Inject()(grayConfig: GrayConfigService) extends Contr
   }
 ///graySystem/info/:id/:name/:des/:entrance
   def addGrayConfig() = Action.async { implicit request =>
-    println("gray config add")
     GrayConfigForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.grayConfig.render(errorForm, Seq.empty[models.GrayConfig],false))),
       data => {
