@@ -97,13 +97,15 @@
                     <div class="row">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;概览<button id="edit" class="btn  navbar-right top-nav btn-default" data-toggle="modal" data-target="#myModal">新增</button><button id="edit" class='btn navbar-right top-nav btn-default' >删除</button></h3>
+                                    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;概览
+                                        <button id="add" class="btn  navbar-right top-nav btn-default" data-toggle="modal" data-target="#myModal">新增</button>
+                                        <button id="delete" class='btn navbar-right top-nav btn-default'>删除</button></h3>
                                 </div>
                                 <div class="panel-body">
                                         <!-- /.row -->
-                                    <div class="row">
+                                    <div class="row" id="graySystems">
                                         @for(graySystem<-graySystems){
-                                                <div class="col-lg-3 col-md-6">
+                                                <div class="col-lg-3 col-md-6"  id="@graySystem.id">
                                                     <div class="panel panel-primary">
                                                         <div class="panel-heading">
                                                             <div class="row">
@@ -204,3 +206,32 @@
     </body>
 
 </html>
+<script>
+   $(document).ready(function() {
+             $('.panel-body .panel-heading').click(function() {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    $('.panel-body .panel-heading.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#edit').enable();
+                }
+             });
+            $('#delete').click(function() {
+                var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
+                var systemId = opDiv.attr('id');
+                var a=confirm("删除该灰度系统吗？");
+                 if(a==true){
+                   $.ajax({
+                        type : "get",
+                        url : "/graySystem/delete/"+systemId,
+                        success : function(msg) {
+                           opDiv.remove();
+
+                        }
+                    })
+                 }
+            });
+
+   });
+</script>

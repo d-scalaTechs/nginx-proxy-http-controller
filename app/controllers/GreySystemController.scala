@@ -44,14 +44,14 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
       data => {
         val newGraySystem = models.GraySystem(0, data.name, data.description, data.entrance)
         graySystem.addGraySystem(newGraySystem).map(res =>
-          Redirect("/graySystem")
+          Redirect("/")
         )
       })
   }
 
   def deleteGraySystem(id: Long) = Action.async { implicit request =>
     graySystem.deleteGraySystem(id) map { res =>
-      Redirect("/graySystem")
+      Redirect("/")
     }
   }
 

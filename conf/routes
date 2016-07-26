@@ -3,7 +3,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET         /                                                controllers.HomeController.index
 # An example controller showing how to use dependency injection
 #GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
@@ -11,28 +11,33 @@ GET     /                           controllers.HomeController.index
 
 
 
-GET         /user                         controllers.UserController.index
-POST        /user/add                     controllers.UserController.addUser
-GET         /user/delete/:id              controllers.UserController.deleteUser(id : Long)
-GET         /user/:id                     controllers.UserController.getUser(id: Long)
-POST        /user/update/:id              controllers.UserController.updateUser(id: Long)
+GET         /user                                            controllers.UserController.index
+POST        /user/add                                        controllers.UserController.addUser
+GET         /user/delete/:id                                 controllers.UserController.deleteUser(id : Long)
+GET         /user/:id                                        controllers.UserController.getUser(id: Long)
+POST        /user/update/:id                                 controllers.UserController.updateUser(id: Long)
 
 
-GET         /graySystem                   controllers.GreySystemController.index
-POST        /graySystem/add               controllers.GreySystemController.addGraySystem
-GET         /graySystem/delete/:id        controllers.GreySystemController.deleteGraySystem(id : Long)
-GET         /graySystem/:id               controllers.GreySystemController.getGraySystem(id: Long)
-POST        /graySystem/update/:id        controllers.GreySystemController.updateGraySystem(id: Long)
+GET         /graySystem                                      controllers.GreySystemController.index
+POST        /graySystem/add                                  controllers.GreySystemController.addGraySystem
+GET         /graySystem/delete/:id                           controllers.GreySystemController.deleteGraySystem(id : Long)
+GET         /graySystem/:id                                  controllers.GreySystemController.getGraySystem(id: Long)
+POST        /graySystem/update/:id                           controllers.GreySystemController.updateGraySystem(id: Long)
 
-GET        /graySystem/conf/:grayType           controllers.GreySystemController.indexByConf(grayType: String)
-GET        /graySystem/info/:id/:name/:des/:entrance      controllers.GreySystemController.detail(id: Long, name: String, des: String,entrance: String)
+GET         /graySystem/conf/:grayType                       controllers.GreySystemController.indexByConf(grayType: String)
+GET         /graySystem/info/:id/:name/:des/:entrance        controllers.GreySystemController.detail(id: Long, name: String, des: String,entrance: String)
 
 
-GET        /grayConfig                   controllers.GreyConfigController.index
-POST       /grayConfig/add               controllers.GreyConfigController.addGrayConfig
-GET        /grayConfig/delete/:id        controllers.GreyConfigController.deleteGrayConfig(id : Long)
-GET        /grayConfig/:id                controllers.GreyConfigController.getGrayConfig(id: Long)
-POST       /grayConfig/update/:id         controllers.GreyConfigController.updateGrayConfig(id: Long)
+GET         /grayConfig                                      controllers.GreyConfigController.index
+POST        /grayConfig/add                                  controllers.GreyConfigController.addGrayConfig
+GET         /grayConfig/delete/:id                           controllers.GreyConfigController.deleteGrayConfig(id : Long)
+GET         /grayConfig/:id                                  controllers.GreyConfigController.getGrayConfig(id: Long)
+POST        /grayConfig/update/:id                           controllers.GreyConfigController.updateGrayConfig(id: Long)
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                                    controllers.Assets.versioned(path="/public", file: Asset)
 
+
+
+GET         /redis/persistence                               controllers.RedisController.insertData
+GET         /redis/get                                       controllers.RedisController.getData
+GET         /redis/page                                       controllers.RedisController.page
