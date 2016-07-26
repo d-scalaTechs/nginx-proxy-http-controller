@@ -262,13 +262,16 @@
                 var node= table.fnGetNodes(indexOfRecord);
                 var rowData = table.fnGetData(node);
                  var a=confirm("删除该灰度名单吗？");
-                $.ajax({
-                    type : "get",
-                    url : "/grayConfig/delete/"+rowData[0],
-                    success : function(msg) {
-                         table.fnDeleteRow(indexOfRecord,false,true);
-                    }
-                })
+                 if(a==true){
+                   $.ajax({
+                        type : "get",
+                        url : "/grayConfig/delete/"+rowData[0],
+                        success : function(msg) {
+                             table.fnDeleteRow(indexOfRecord,false,true);
+                        }
+                    })
+                 }
+
             });
 
             $('#edit').click(function() {

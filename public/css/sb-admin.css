@@ -11,6 +11,10 @@ body {
     background-color: #222;
 }
 
+tr.selected{
+    background-color: #92d13d;
+}
+
 @media(min-width:768px) {
     body {
         margin-top: 50px;
