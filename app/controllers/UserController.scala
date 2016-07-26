@@ -56,7 +56,6 @@ class UserController@Inject()(userService: UserService) extends Controller {
       })
   }
 
-
   def getUser(id: Long) = Action.async { implicit request =>
       userService.getUser(id) map { user => Ok(views.html.user.render(UserForm.form, Seq(user.get),true))
     }
