@@ -26,7 +26,7 @@ CREATE TABLE `grey_system` (
   `entrance` varchar(200) DEFAULT NULL COMMENT '入口/地址',
   `system_type` smallint(1) NOT NULL COMMENT '灰度系统,1:前台网站(WEB);2:运营系统(OSS)',
   `sub_system` VARCHAR(200) NOT NULL COMMENT '系统名称',
-  `system_type` smallint(1) NOT NULL COMMENT '是否启用,0:禁用(DISABLE);1:启用(ENABLE)',
+  `status` smallint(1) NOT NULL COMMENT '是否启用,0:禁用(DISABLE);1:启用(ENABLE)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='灰度';
 

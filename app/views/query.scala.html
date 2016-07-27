@@ -67,10 +67,10 @@
                         <li>
                             <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
-                        <li  class="active">
+                        <li>
                             <a href="/redis "><i class="fa fa-fw fa-edit"></i>数据同步</a>
                         </li>
-                         <li>
+                        <li   class="active">
                             <a href="/query "><i class="fa fa-fw fa-edit"></i>关键字查询</a>
                         </li>
                     </ul>
@@ -86,29 +86,37 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h1 class="page-header">
-                                灰度系统 <small>列表</small>
+                                 <small>
+                                     <a id="redisSync" class="btn btn-primary btn-lg" role="button" href="#">缓存同步</a>
+                                 </small>
                             </h1>
                         </div>
                     </div>
 
 
-                    <div class="row">
+                    <div class="row col-lg-3 col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;概览</h3>
+                                <h3 class="panel-title "><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;mysql, redis&nbsp;数据查询</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body ">
                                     <!-- /.row -->
                                 <div class="row">
-                                    <div>
-                                        <button id="redisP">触发redis数据保存</button>
+                                    <div class="form-group input-group">
+                                        <input type="text" class="form-control" id="key" name="key" placeholder="请输入" required >
+                                        <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
                                     </div>
-                                    <br/>
-                                    <br/>
-                                    <div>
-                                        <button id="redisG">触发redis获得数据</button>
-                                        @if(value!=null){<div>@value</div>}
-                                    </div>
+                                </div>
+
+                                <div class="row " style="padding-top: 30px">
+                                        <div class="form-group">
+                                            <label>数据库结果</label>
+                                            <textarea  id="valueDB" name="valueDB" class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group" style="padding-top: 30px">
+                                            <label>Redis缓存结果</label>
+                                            <textarea  id="valueRedis" name="valueRedis"  class="form-control"></textarea>
+                                         </div>
                                 </div>
                                     <!-- /.row -->
                             </div>
