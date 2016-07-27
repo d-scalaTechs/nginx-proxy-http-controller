@@ -1,4 +1,4 @@
-@()(graySystems : Seq[models.GraySystem])
+@()(systemId:Long, graySystems : Seq[models.GraySystem])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,10 +61,11 @@
                         <li>
                             <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
                         </li>
-                        <li class="active">
+
+                        <li @if(systemId==1){class="active"} >
                             <a href="/graySystem/conf/web"><i class="fa fa-fw fa-table"></i>WEB</a>
                         </li>
-                        <li>
+                        <li @if(systemId==2){class="active"} >
                             <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
                     </ul>
@@ -80,7 +81,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h1 class="page-header">
-                                服务治理功能 <small>功能列表</small>
+
+                               <small> @if(systemId==1){前端灰度}else{后端灰度}</small>
                             </h1>
                             <ol class="breadcrumb">
                                 <li class="active">

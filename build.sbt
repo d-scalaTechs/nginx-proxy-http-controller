@@ -13,8 +13,7 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.38",
   "com.typesafe.play" %% "play-slick" % "2.0.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "2.0.0",
-  "com.github.karelcemus" %% "play-redis" % "1.2.0"
+  "redis.clients" % "jedis" % "2.9.0"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
-resolvers += "Brando Repository" at "http://chrisdinn.github.io/releases/"

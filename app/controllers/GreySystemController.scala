@@ -18,14 +18,14 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
   def index = Action.async { implicit request =>
     graySystem.listAllGraySystems map { graySystems =>
-      Ok(views.html.graySystem.render(graySystems))
+      Ok(views.html.graySystem.render(0,graySystems))
     }
   }
 
   def indexByConf(grayType:String) = Action.async { implicit request =>
     val systemId = if("web".equals(grayType)) 1l else if("oss".equals(grayType)){2l}else{0l}
     graySystem.listAllGraySystemsByConf(systemId) map { graySystems =>
-      Ok(views.html.graySystem.render(graySystems))
+      Ok(views.html.graySystem.render(systemId,graySystems))
     }
   }
 
@@ -40,7 +40,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
   def addGraySystem() = Action.async { implicit request =>
     GraySystemForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(views.html.graySystem.render(Seq.empty[models.GraySystem]))),
+      errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GraySystem]))),
       data => {
         val newGraySystem = models.GraySystem(0, data.name, data.description, data.entrance)
         graySystem.addGraySystem(newGraySystem).map(res =>
@@ -57,7 +57,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
   def updateGraySystem(id: Long) = Action.async { implicit request =>
     GraySystemForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(views.html.graySystem.render(Seq.empty[models.GraySystem]))),
+      errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GraySystem]))),
       data => {
         val newGraySystem = models.GraySystem(id, data.name, data.description, data.entrance)
         graySystem.updateGraySystem(newGraySystem).map(res =>
@@ -68,7 +68,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
 
   def getGraySystem(id: Long) = Action.async { implicit request =>
-      graySystem.getGraySystem(id) map { graySystem => Ok(views.html.graySystem.render(Seq(graySystem)))
+      graySystem.getGraySystem(id) map { graySystem => Ok(views.html.graySystem.render(0,Seq(graySystem)))
     }
   }
 }
