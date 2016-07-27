@@ -29,10 +29,9 @@ class GreyConfigController@Inject()(grayConfig: GrayConfigService) extends Contr
   GrayConfigForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.grayConfig.render(errorForm, Seq.empty[models.GrayConfig],false))),
       data => {
-
         val newGrayConfig = models.GrayConfig(0, data.key, data.value,data.systemId,new Date(System.currentTimeMillis()))
         grayConfig.addGrayConfig(newGrayConfig).map(res =>
-          Redirect("/")
+          Redirect("/graySystem")
         )
       })
   }
@@ -40,6 +39,7 @@ class GreyConfigController@Inject()(grayConfig: GrayConfigService) extends Contr
   def deleteGrayConfig(id: Long) = Action.async { implicit request =>
     grayConfig.deleteGrayConfig(id) map { res =>
       Redirect("/graySystem")
+//        Ok("{\"result\":0}")
     }
   }
 
@@ -49,7 +49,8 @@ class GreyConfigController@Inject()(grayConfig: GrayConfigService) extends Contr
       data => {
         val newGrayConfig = models.GrayConfig(id,data.key, data.value,data.systemId,new Date(System.currentTimeMillis()))
         grayConfig.updateGrayConfig(newGrayConfig).map(res =>
-          Redirect("/graySystem")
+//          Redirect("/graySystem")
+          Ok("{result:true}").as(contentType = "json")
         )
       })
   }

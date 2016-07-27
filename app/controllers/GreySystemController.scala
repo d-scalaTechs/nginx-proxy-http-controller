@@ -6,6 +6,7 @@ package controllers
  */
 import javax.inject.{Inject, Singleton}
 
+import com.fasterxml.jackson.databind.JsonNode
 import play.api.mvc.{Action, Controller}
 import pojos._
 import services.GraySystemService
@@ -54,7 +55,10 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
     }
   }
 
-  def updateGraySystem(id: Long) = Action.async { implicit request =>
+  def updateGraySystem(id:Int) = Action.async { implicit request =>
+//    val json = request.body.asJson
+//    println("json: " + json)
+//    Future.successful(Ok("{\"result\":0}"))
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GraySystem]))),
       data => {
@@ -63,6 +67,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
           Redirect("/graySystem")
         )
       })
+
   }
 
 

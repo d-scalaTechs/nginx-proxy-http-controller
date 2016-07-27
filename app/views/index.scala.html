@@ -233,17 +233,20 @@
             $('#delete').click(function() {
                 var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
                 var systemId = opDiv.attr('id');
-                var a=confirm("删除该灰度系统吗？");
+                if(systemId !=undefined){
+                 var a=confirm("删除该灰度系统吗？");
                  if(a==true){
                    $.ajax({
                         type : "get",
                         url : "/graySystem/delete/"+systemId,
                         success : function(msg) {
                            opDiv.remove();
-
                         }
                     })
+                 }else{
+                    alert("请选择一个灰度系统");
                  }
+                }
             });
 
    });

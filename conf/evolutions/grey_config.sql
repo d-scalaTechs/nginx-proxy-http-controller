@@ -31,7 +31,7 @@ CREATE TABLE `grey_config` (
 -- ----------------------------
 -- Records of grey_config
 -- ----------------------------
-INSERT INTO `grey_config` VALUES ('1',  'staffName', '韩雷', '1', '2016-07-22 15:03:32');
+INSERT INTO `grey_config` VALUES ('1',  'staffName', '韩雷',  '1', '2016-07-22 15:03:32');
 INSERT INTO `grey_config` VALUES ('2',  'staffName', '韩雷1', '3', '2016-07-22 15:03:34');
 INSERT INTO `grey_config` VALUES ('3',  'staffName', '韩雷2', '2', '2016-07-22 15:03:35');
 INSERT INTO `grey_config` VALUES ('4',  'staffName', '韩雷3', '4', '2016-07-22 15:03:40');
