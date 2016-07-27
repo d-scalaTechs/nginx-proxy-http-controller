@@ -8,4 +8,4 @@ import java.util.Date
  */
 case class User(id: Long, firstName: String, lastName: String, mobile: Long, email: String)
 case class GraySystem(id: Long, name: String, description: String, entrance: String,systemType:Int)
-case class GrayConfig(id: Long, key: String, value: String, targetId: Long, updatedAt: Date)
+case class GrayConfig(id: Long, key: String, value: String, systemId: Long, updatedAt: Date)

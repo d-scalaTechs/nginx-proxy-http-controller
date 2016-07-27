@@ -41,7 +41,6 @@ class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   }
 
   def update(graySystem: GraySystem): Future[Int] = {
-    println(graySystem)
     db.run(graySystems.filter(_.id === graySystem.id).update(graySystem))
   }
   def get(id: Long): Future[GraySystem] = {
@@ -52,15 +51,16 @@ class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     db.run(graySystems.result)
   }
 
-  def list(id: Long): Future[Seq[GraySystem]] = {
-    db.run(graySystems
-      .join(grayConfigs)
-      .on((t1,t2) => t1.id === t2.targetId )
-//      .filter{case (t1, t2) => t2.system === id }
-      .map{ case (t1, t2) => t1 }.result )
+  def list(id: Int): Future[Seq[GraySystem]] = {
+//    db.run(graySystems
+//      .join(grayConfigs)
+//      .on((t1,t2) => t1.id === t2.systemId )
+//      .filter{case (t1, t2) => t1.systemType === id }
+//      .map{ case (t1, t2) => t1 }.result )
+    db.run(graySystems.filter(_.systemType === id).result)
   }
 
   def detail(id:Long): Future[Seq[GrayConfig]]= {
-       db.run(grayConfigs.filter(_.targetId === id).result)
+       db.run(grayConfigs.filter(_.systemId === id).result)
   }
 }

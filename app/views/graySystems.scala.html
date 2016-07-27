@@ -63,10 +63,10 @@
                         <li>
                             <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
                         </li>
-                        <li class="active">
+                        <li @if(graySystem.systemType==1){class="active"}>
                             <a href="/graySystem/conf/web"><i class="fa fa-fw fa-table"></i>WEB</a>
                         </li>
-                        <li>
+                        <li @if(graySystem.systemType==2){class="active"}>
                             <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
                         <li>
@@ -102,10 +102,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <form role="form"  action="/grayConfig/add"  method="post" >
-                                        <input type="hidden" id="system" name="system" value="1">
-                                        <input type="hidden" id="targetId" name="targetId" value="@graySystem.id">
+                                        <input type="hidden" id="systemId" name="systemId" value="@graySystem.id">
                                         <div class="form-group">
-                                            <label>灰度类型</label>
+                                            <label>灰度主题</label>
                                             <input id="key" name="key" value="" class="form-control" placeholder="请输入" required>
                                         </div>
                                         <div class="form-group">
@@ -140,22 +139,18 @@
                                 <div class="panel-body">
                                     <div id="graySystemPanel" >
                                        <h4>名称：@graySystem.name</h4>
-                                       <h4>类型：WEB</h4>
+                                        <h4>类型: @if(1 == graySystem.systemType) {WEB} else {OSS}</h4>
                                        <h4>地址：@graySystem.entrance</h4>
                                        <h4>描述：@graySystem.description</h4>
                                     </div>
 
                                     <div id="graySystemForm" style="display: none">
                                         <form role="form"  action="/graySystem/update/@graySystem.id"  method="post" >
-                                            <input type="hidden" id="system" name="system" value="1">
+                                            <input type="hidden" id="systemType" name="systemType" value="@graySystem.systemType">
                                             <div class="form-group">
                                                 <label>名称</label>
                                                 <input id="name" name="name" value="name" class="form-control" placeholder="请输入">
                                             </div>
-                                            @*<div class="form-group">*@
-                                                @*<label>类型</label>*@
-                                                @*<input id="systemType" name="systemType" value="web" class="form-control" contenteditable="false">*@
-                                            @*</div>*@
                                             <div class="form-group">
                                                 <label>地址</label>
                                                 <input id="entrance" name="entrance" value="@graySystem.description" class="form-control" placeholder="请输入">
