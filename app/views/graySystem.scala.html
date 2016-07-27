@@ -1,4 +1,4 @@
-@()(systemId:Long, graySystems : Seq[models.GraySystem])
+@()(systemId:Long, graySystems : Seq[models.GrayServer])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -122,7 +122,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <a href="/graySystem/info/@graySystem.id/@graySystem.name/@graySystem.description/@graySystem.entrance/@graySystem.systemType">
+                                                <a href="/graySystem/info/@graySystem.id/@graySystem.name/@graySystem.description/@graySystem.entrance/@graySystem.serverType">
                                                     <div class="panel-footer">
                                                         <span class="pull-left">@graySystem.description</span>
                                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

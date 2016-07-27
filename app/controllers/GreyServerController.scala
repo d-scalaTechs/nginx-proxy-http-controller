@@ -6,7 +6,6 @@ package controllers
  */
 import javax.inject.{Inject, Singleton}
 
-import com.fasterxml.jackson.databind.JsonNode
 import play.api.mvc.{Action, Controller}
 import pojos._
 import services.GraySystemService
@@ -15,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class GreySystemController@Inject()(graySystem: GraySystemService) extends Controller {
+class GreyServerController@Inject()(graySystem: GraySystemService) extends Controller {
 
   def index = Action.async { implicit request =>
     graySystem.listAllGraySystems map { graySystems =>
@@ -31,7 +30,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
   }
 
   def detail(id: Long, name: String, description: String, entrance: String,systemType:Int) = Action.async{ implicit request =>
-       val newGraySystem = models.GraySystem(id, name,description, entrance,systemType)
+       val newGraySystem = models.GrayServer(id, name,description, entrance,systemType,"",0)
        graySystem.getGraySystemDetail(id) map {systemInfo=>
          Ok(views.html.graySystems.render(newGraySystem,systemInfo))
        }
@@ -40,9 +39,9 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 
   def addGraySystem() = Action.async { implicit request =>
     GraySystemForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GraySystem]))),
+      errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GrayServer]))),
       data => {
-        val newGraySystem = models.GraySystem(0, data.name, data.description, data.entrance,data.systemType)
+        val newGraySystem = models.GrayServer(0, data.name, data.description, data.entrance,data.serverType,"",0)
         graySystem.addGraySystem(newGraySystem).map(res =>
           Redirect("/")
         )
@@ -60,9 +59,9 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
 //    println("json: " + json)
 //    Future.successful(Ok("{\"result\":0}"))
     GraySystemForm.form.bindFromRequest.fold(
-      errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GraySystem]))),
+      errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GrayServer]))),
       data => {
-        val newGraySystem = models.GraySystem(id, data.name, data.description, data.entrance,data.systemType)
+        val newGraySystem = models.GrayServer(id, data.name, data.description, data.entrance,data.serverType,"",0)
         graySystem.updateGraySystem(newGraySystem).map(res =>
           Redirect("/graySystem")
         )

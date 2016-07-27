@@ -23,7 +23,7 @@ CREATE TABLE `grey_config` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `key` varchar(20) NOT NULL COMMENT 'staffName, userName, (userId, ip ...)',
   `value` varchar(100) NOT NULL COMMENT '值',
-  `system_id` int(10) NOT NULL COMMENT '灰度服务id',
+  `server_id` int(10) NOT NULL COMMENT '灰度服务id',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='灰度配置表';

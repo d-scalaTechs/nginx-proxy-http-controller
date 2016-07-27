@@ -10,33 +10,33 @@ import scala.concurrent.Future
  *
  * @author Eric on 2016/7/21 15:55
  */
-class GraySystemService @Inject() (graySystems: GraySystems)  {
+class GraySystemService @Inject() (grayServers: GrayServers)  {
 
-  def addGraySystem(graySystem: GraySystem): Future[String] = {
-    graySystems.add(graySystem)
+  def addGraySystem(graySystem: GrayServer): Future[String] = {
+    grayServers.add(graySystem)
   }
 
   def deleteGraySystem(id: Long): Future[Int] = {
-    graySystems.delete(id)
+    grayServers.delete(id)
   }
 
 
-  def updateGraySystem(graySystem: GraySystem): Future[Int] = {
-    graySystems.update(graySystem)
+  def updateGraySystem(graySystem: GrayServer): Future[Int] = {
+    grayServers.update(graySystem)
   }
 
-  def getGraySystem(id: Long): Future[GraySystem] = {
-    graySystems.get(id)
+  def getGraySystem(id: Long): Future[GrayServer] = {
+    grayServers.get(id)
   }
 
-  def listAllGraySystems: Future[Seq[GraySystem]] = {
-    graySystems.listAll
+  def listAllGraySystems: Future[Seq[GrayServer]] = {
+    grayServers.listAll
   }
-  def listAllGraySystemsByConf(id: Int): Future[Seq[GraySystem]] = {
-    graySystems.list(id)
+  def listAllGraySystemsByConf(id: Int): Future[Seq[GrayServer]] = {
+    grayServers.list(id)
   }
 
   def getGraySystemDetail(id: Long):Future[Seq[GrayConfig]] = {
-     graySystems.detail(id)
+    grayServers.detail(id)
   }
 }

@@ -1,4 +1,4 @@
-@()(graySystem:GraySystem, grayConfigs : Seq[models.GrayConfig])
+@()(graySystem:GrayServer, grayConfigs : Seq[models.GrayConfig])
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,10 +63,10 @@
                         <li>
                             <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
                         </li>
-                        <li @if(graySystem.systemType==1){class="active"}>
+                        <li @if(graySystem.serverType==1){class="active"}>
                             <a href="/graySystem/conf/web"><i class="fa fa-fw fa-table"></i>WEB</a>
                         </li>
-                        <li @if(graySystem.systemType==2){class="active"}>
+                        <li @if(graySystem.serverType==2){class="active"}>
                             <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
                         <li>
@@ -142,7 +142,7 @@
                                 <div class="panel-body">
                                     <div id="graySystemPanel" >
                                        <h4>名称：@graySystem.name</h4>
-                                        <h4>类型: @if(1 == graySystem.systemType) {WEB} else {OSS}</h4>
+                                        <h4>类型: @if(1 == graySystem.serverType) {WEB} else {OSS}</h4>
                                        <h4>地址：@graySystem.entrance</h4>
                                        <h4>描述：@graySystem.description</h4>
                                     </div>
@@ -150,7 +150,7 @@
                                     <div id="graySystemForm" style="display: none">
                                         @**@
                                         <form role="form" id="graySystemFormReal" action="/graySystem/update/@graySystem.id"    method="post">
-                                            <input type="hidden" id="systemType" name="systemType" value="@graySystem.systemType">
+                                            <input type="hidden" id="systemType" name="systemType" value="@graySystem.serverType">
                                             <div class="form-group">
                                                 <label>名称</label>
                                                 <input id="name" name="name" value="@graySystem.name" class="form-control" placeholder="请输入">
