@@ -20,8 +20,9 @@ class GraySystemTableDef(tag: Tag) extends Table[models.GraySystem](tag, "grey_s
   def name = column[String]("name")
   def description = column[String]("description")
   def entrance = column[String]("entrance")
+  def systemType= column[Int]("system_type")
   override def * =
-    (id, name, description, entrance) <>(GraySystem.tupled, GraySystem.unapply)
+    (id, name, description, entrance,systemType) <>(GraySystem.tupled, GraySystem.unapply)
 }
 
 
@@ -55,7 +56,7 @@ class GraySystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     db.run(graySystems
       .join(grayConfigs)
       .on((t1,t2) => t1.id === t2.targetId )
-      .filter{case (t1, t2) => t2.system === id }
+//      .filter{case (t1, t2) => t2.system === id }
       .map{ case (t1, t2) => t1 }.result )
   }
 

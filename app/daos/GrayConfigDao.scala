@@ -22,13 +22,12 @@ class GrayConfigTableDef(tag: Tag) extends Table[models.GrayConfig](tag, "grey_c
       d => new java.util.Date(d.getTime))
 
   def id = column[Long]("id", O.PrimaryKey,O.AutoInc)
-  def system = column[Long]("system")
   def key = column[String]("key")
   def value = column[String]("value")
   def targetId = column[Long]("target_id")
   def updatedAt= column[Date]("updated_at")
   override def * =
-    (id, system, key, value,targetId,updatedAt) <>(GrayConfig.tupled, GrayConfig.unapply)
+    (id, key, value,targetId,updatedAt) <>(GrayConfig.tupled, GrayConfig.unapply)
 }
 
 

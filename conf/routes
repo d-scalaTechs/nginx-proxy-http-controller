@@ -25,7 +25,7 @@ GET         /graySystem/:id                                  controllers.GreySys
 POST        /graySystem/update/:id                           controllers.GreySystemController.updateGraySystem(id: Long)
 
 GET         /graySystem/conf/:grayType                       controllers.GreySystemController.indexByConf(grayType: String)
-GET         /graySystem/info/:id/:name/:des/:entrance        controllers.GreySystemController.detail(id: Long, name: String, des: String,entrance: String)
+GET         /graySystem/info/:id/:name/:des/:entrance/:systemType        controllers.GreySystemController.detail(id: Long, name: String, des: String,entrance: String,systemType:Int)
 
 
 GET         /grayConfig                                      controllers.GreyConfigController.index
@@ -40,4 +40,4 @@ GET         /assets/*file                                    controllers.Assets.
 
 GET         /redis/persistence                               controllers.RedisController.insertData
 GET         /redis/get                                       controllers.RedisController.getData
-GET         /redis/page                                       controllers.RedisController.page
+GET         /redis                                           controllers.RedisController.page

@@ -29,8 +29,8 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
     }
   }
 
-  def detail(id: Long, name: String, description: String, entrance: String) = Action.async{ implicit request =>
-       val newGraySystem = models.GraySystem(id, name,description, entrance)
+  def detail(id: Long, name: String, description: String, entrance: String,systemType:Int) = Action.async{ implicit request =>
+       val newGraySystem = models.GraySystem(id, name,description, entrance,systemType)
         println(newGraySystem)
        graySystem.getGraySystemDetail(id) map {systemInfo=>
          Ok(views.html.graySystems.render(newGraySystem,systemInfo))
@@ -42,7 +42,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GraySystem]))),
       data => {
-        val newGraySystem = models.GraySystem(0, data.name, data.description, data.entrance)
+        val newGraySystem = models.GraySystem(0, data.name, data.description, data.entrance,data.systemType)
         graySystem.addGraySystem(newGraySystem).map(res =>
           Redirect("/")
         )
@@ -59,7 +59,7 @@ class GreySystemController@Inject()(graySystem: GraySystemService) extends Contr
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GraySystem]))),
       data => {
-        val newGraySystem = models.GraySystem(id, data.name, data.description, data.entrance)
+        val newGraySystem = models.GraySystem(id, data.name, data.description, data.entrance,data.systemType)
         graySystem.updateGraySystem(newGraySystem).map(res =>
           Redirect("/graySystem")
         )

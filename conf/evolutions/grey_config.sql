@@ -21,7 +21,6 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `grey_config`;
 CREATE TABLE `grey_config` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `system` smallint(1) NOT NULL COMMENT '灰度系统,1:前台网站(WEB);2:运营系统(OSS)',
   `key` varchar(20) NOT NULL COMMENT 'staffName, userName, (userId, ip ...)',
   `value` varchar(100) NOT NULL COMMENT '值',
   `target_id` int(10) NOT NULL COMMENT '灰度服务id',
@@ -32,7 +31,7 @@ CREATE TABLE `grey_config` (
 -- ----------------------------
 -- Records of grey_config
 -- ----------------------------
-INSERT INTO `grey_config` VALUES ('1', '1', 'staffName', '韩雷', '1', '2016-07-22 15:03:32');
-INSERT INTO `grey_config` VALUES ('2', '1', 'staffName', '韩雷1', '3', '2016-07-22 15:03:34');
-INSERT INTO `grey_config` VALUES ('3', '2', 'staffName', '韩雷2', '2', '2016-07-22 15:03:35');
-INSERT INTO `grey_config` VALUES ('4', '2', 'staffName', '韩雷3', '4', '2016-07-22 15:03:40');
+INSERT INTO `grey_config` VALUES ('1',  'staffName', '韩雷', '1', '2016-07-22 15:03:32');
+INSERT INTO `grey_config` VALUES ('2',  'staffName', '韩雷1', '3', '2016-07-22 15:03:34');
+INSERT INTO `grey_config` VALUES ('3',  'staffName', '韩雷2', '2', '2016-07-22 15:03:35');
+INSERT INTO `grey_config` VALUES ('4',  'staffName', '韩雷3', '4', '2016-07-22 15:03:40');
