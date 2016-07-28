@@ -41,7 +41,7 @@ class GreyServerController@Inject()(graySystem: GraySystemService) extends Contr
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystem.render(0,Seq.empty[models.GrayServer]))),
       data => {
-        val newGraySystem = models.GrayServer(0, data.name, data.description, data.entrance,data.serverType,"",0)
+        val newGraySystem = models.GrayServer(0, data.name, data.description, data.entrance,data.serverType,data.subSystem,0)
         graySystem.addGraySystem(newGraySystem).map(res =>
           Redirect("/")
         )

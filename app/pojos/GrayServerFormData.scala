@@ -7,7 +7,7 @@ import play.api.data.Forms._
  *
  * @author Eric on 2016/7/21 15:51
  */
-case class GrayServerFormData(name: String, description: String, entrance: String, serverType:Int,nonEmptyText:String,status:Int)
+case class GrayServerFormData(name: String, description: String, entrance: String, serverType:Int,subSystem:String,status:Int)
 object GraySystemForm {
 
   val form = Form(

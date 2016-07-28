@@ -154,37 +154,38 @@
                                             <label>系统名称</label>
                                             <input id="name" name="name" value="name" class="form-control" placeholder="请输入">
                                         </div>
+
                                         <div class="form-group">
-                                            <label>系统类型</label>
-                                                <label class="radio-inline">
-                                                <input type="radio" name="serverType" id="systemType1" value="1" checked>WEB
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="serverType" id="systemType1" value="2">OSS
-                                            </label>
+                                            <label>系统归类</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="serverType" id="serverType1" value="1" checked>WEB
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="serverType" id="serverType2" value="2">OSS
+                                                </label>
+                                            </div>
                                         </div>
+
                                         <div class="form-group">
                                             <label>状态</label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="status" id="systemType1" value="0" checked>启用
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="status" id="systemType1" value="1">禁用
-                                            </label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="status" id="status1" value="1" checked>启用
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="status" id="status2" value="0">禁用
+                                                </label>
+                                            </div>
+
                                         </div>
                                         <div class="form-group">
                                             <label>子系统名称</label>
                                             <input id="subSystem" name="subSystem" value="subSystem1" class="form-control" placeholder="请输入">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>启用</label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="status" id="systemType1" value="1" checked>启用
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="status" id="systemType1" value="0">禁用
-                                            </label>
                                         </div>
 
                                         <div class="form-group">
@@ -195,7 +196,6 @@
                                             <label>地址(IP:Port)</label>
                                             <input id="entrance" name="entrance" value="127.0.0.1:8000" class="form-control" placeholder="请输入">
                                         </div>
-
                                         <button type="submit" class="btn btn-default">新增</button>
 
                                     </form>
