@@ -103,8 +103,8 @@
                                     <!-- /.row -->
                                 <div class="row">
                                     <div class="form-group input-group">
-                                        <input type="text" class="form-control" id="key" name="key" placeholder="请输入" required >
-                                        <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
+                                        <input id="queryValue" type="text" class="form-control" id="key" name="key" placeholder="请输入" required >
+                                        <span class="input-group-btn"><button id="btnQuery" class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
                                     </div>
                                 </div>
 
@@ -154,14 +154,14 @@
                     })
             });
 
-//             $('#redisG').click(function() {
-//                    $.ajax({
-//                        type : "get",
-//                        url : "/redis/get",
-//                        success : function(msg) {
-//
-//                        }
-//                    })
-//            });
+             $('#btnQuery').click(function() {
+                    $.ajax({
+                        type : "post",
+                        url : "/consistency/query/"+$('#queryValue').val(),
+                        success : function(msg) {
+
+                        }
+                    })
+            });
     });
 </script>)

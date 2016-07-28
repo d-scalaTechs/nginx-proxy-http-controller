@@ -2,10 +2,12 @@ package controllers
 
 import javax.inject._
 
+import play.api.libs.json.Json
 import play.api.mvc._
 import redis.clients.jedis.Jedis
-import services.{GrayConfigService, GrayServerService}
+import services.{GrayServerService}
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -14,33 +16,63 @@ import scala.concurrent.Future
  * @author Eric on 2016/7/21 15:55
  */
 @Singleton
-class SyncController @Inject()(grayServerService: GrayServerService,grayConfigService: GrayConfigService) extends Controller {
+class SyncController @Inject()(grayServerService: GrayServerService) extends Controller {
 
   def page = Action.async { implicit request =>
       Future.successful( Ok(views.html.sync.render("page")))
   }
 
   def sync()= Action.async { implicit request =>
-    grayConfigService.getRedisKeys map{keys =>
+    grayServerService.buildRedisKeyAndValue map(keys=>{
       val jedis = new Jedis("127.0.0.1", 6379);
       for (key<-keys){
-          val redisKey  = "gray."+key._1+"."+key._2
-          grayConfigService.getValuesByServerIdAndKey(key._1,key._2) map{ values=>
-            println("redis Key: "+redisKey+"-->  redis value: " + values.mkString(","))
-            jedis.set(redisKey,new String(values.mkString(",")))
-          }
-       }
-      jedis.close();
-      Ok("{\"result\":0}")
-    }
-  }
-
-  def verify(key:String,value:String)= Action.async {
-    grayServerService.listServers map{listServers =>
-      for(listServer<-listServers){
-        println(listServer)
+        val redisKey  = "gray."+(if(key._1==1) "web" else if(key._1==2){"oss"})+"."+key._2+"."+key._4
+        val redisValue = key._3
+        println("redis key: " + redisKey +"  -->  redis value: " + redisValue)
+        jedis.set(redisKey,redisValue)
       }
       Ok("{\"result\":0}")
+    })
+//    grayConfigService.getRedisKeys map{keys =>
+//      val jedis = new Jedis("127.0.0.1", 6379);
+//      for (key<-keys){
+//          val redisKey  = "gray."+key._1+"."+key._2
+//          grayConfigService.getValuesByServerIdAndKey(key._1,key._2) map{ values=>
+//            println("redis Key: "+redisKey+"-->  redis value: " + values.mkString(","))
+//            jedis.set(redisKey,new String(values.mkString(",")))
+//          }
+//       }
+//      jedis.close();
+//      Ok("{\"result\":0}")
+//    }
+  }
+
+  def verify(value:String)= Action.async {
+    val redisList = ListBuffer[String]()
+    val mysqlList = ListBuffer[String]()
+
+    grayServerService.buildRedisKey map{redisKeys =>
+      val jedis = new Jedis("127.0.0.1", 6379)
+      for (key<-redisKeys){
+          if(jedis.exists(key +"."+value)){
+            redisList.append(jedis.get(key +"."+value))
+          }
+      }
+      jedis.close()
     }
+     grayServerService.listServersByValue(value) map{servers =>
+          for(server<-servers){
+            mysqlList.append(server)
+          }
+
+       println("redisList: " + redisList)
+       println("mysqlList: " + mysqlList)
+       Ok("{\"result\":"+Json.toJson(redisList)+"}")
+     }
+
+
+
+
+
   }
 }

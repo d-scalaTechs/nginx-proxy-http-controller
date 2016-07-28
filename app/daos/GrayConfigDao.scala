@@ -55,11 +55,15 @@ class GrayConfigs @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     db.run(grayConfigs.result)
   }
 
-  def getRedisKeys: Future[Seq[(Long,String)]] = {
-    db.run(grayConfigs.groupBy{t=>t.serverId->t.key}.map{ case (t1, t2) => t1._1 -> t1._2}.result)
-  }
+//  def getRedisKeys: Future[Seq[(Long,String)]] = {
+//    db.run(grayConfigs.groupBy{t=>t.serverId->t.key}.map{ case (t1, t2) => t1._1 -> t1._2}.result)
+//  }
+//
+//  def getValuesByServerIdAndKey(serverId: Long,key:String): Future[Seq[String]] ={
+//    db.run(grayConfigs.filter(_.serverId === serverId).filter(t=>(t.serverId===serverId) &&(t.key===key)).map{case r=>r.value.trim}.result)
+//  }
 
-  def getValuesByServerIdAndKeyFuture(serverId: Long,key:String): Future[Seq[String]] ={
+  def getValuesByServerIdAndValue(serverId: Long,key:String): Future[Seq[String]] ={
     db.run(grayConfigs.filter(_.serverId === serverId).filter(t=>(t.serverId===serverId) &&(t.key===key)).map{case r=>r.value.trim}.result)
   }
 }
