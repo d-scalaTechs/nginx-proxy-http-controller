@@ -25,6 +25,10 @@ class GraySystemService @Inject() (grayServers: GrayServers)  {
     grayServers.update(graySystem)
   }
 
+  def updateGrayServerStatus(id: Long,status:Int): Future[Int] = {
+    grayServers.updateGrayServerStatus(id,status)
+  }
+
   def getGraySystem(id: Long): Future[GrayServer] = {
     grayServers.get(id)
   }

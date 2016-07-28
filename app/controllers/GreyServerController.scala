@@ -69,6 +69,11 @@ class GreyServerController@Inject()(graySystem: GraySystemService) extends Contr
 
   }
 
+   def updateGrayServerStatus(id: Long,status:Int) = Action.async { implicit request =>
+     graySystem.updateGrayServerStatus(id,status) map { res =>
+       Redirect("/")
+     }
+  }
 
   def getGraySystem(id: Long) = Action.async { implicit request =>
       graySystem.getGraySystem(id) map { graySystem => Ok(views.html.graySystem.render(0,Seq(graySystem)))

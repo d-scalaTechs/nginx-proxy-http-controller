@@ -26,7 +26,7 @@ POST        /graySystem/update/:id                                       control
 
 GET         /graySystem/conf/:grayType                                   controllers.GreyServerController.indexByConf(grayType: String)
 GET         /graySystem/info/:id/:name/:des/:entrance/:systemType        controllers.GreyServerController.detail(id: Long, name: String, des: String,entrance: String,systemType:Int)
-
+POST        /graySystem/statusChange/:status/:id                          controllers.GreyServerController.updateGrayServerStatus(id:Long,status:Int)
 
 GET         /grayConfig                                                  controllers.GreyConfigController.index
 POST        /grayConfig/add                                              controllers.GreyConfigController.addGrayConfig

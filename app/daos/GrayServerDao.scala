@@ -39,8 +39,13 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
       case ex: Exception => ex.getCause.getMessage
     }
   }
+
   def delete(id: Long): Future[Int] = {
     db.run(grayServers.filter(_.id === id).delete)
+  }
+
+  def updateGrayServerStatus(id: Long,status:Int): Future[Int] = {
+    db.run(grayServers.filter(_.id === id).map(_.status).update(status))
   }
 
   def update(graySystem: GrayServer): Future[Int] = {
