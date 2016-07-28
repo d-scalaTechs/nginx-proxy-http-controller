@@ -24,10 +24,10 @@ class GrayConfigTableDef(tag: Tag) extends Table[models.GrayConfig](tag, "grey_c
   def id = column[Long]("id", O.PrimaryKey,O.AutoInc)
   def key = column[String]("key")
   def value = column[String]("value")
-  def systemId = column[Long]("server_id")
+  def serverId = column[Long]("server_id")
   def updatedAt= column[Date]("updated_at")
   override def * =
-    (id, key, value,systemId,updatedAt) <>(GrayConfig.tupled, GrayConfig.unapply)
+    (id, key, value,serverId,updatedAt) <>(GrayConfig.tupled, GrayConfig.unapply)
 }
 
 
@@ -45,7 +45,6 @@ class GrayConfigs @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   }
 
   def update(grayConfig: GrayConfig): Future[Int] = {
-    println(grayConfig)
     db.run(grayConfigs.filter(_.id === grayConfig.id).update(grayConfig))
   }
   def get(id: Long): Future[Option[GrayConfig]] = {
@@ -54,5 +53,13 @@ class GrayConfigs @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   def listAll: Future[Seq[GrayConfig]] = {
     db.run(grayConfigs.result)
+  }
+
+  def getRedisKeys: Future[Seq[(Long,String)]] = {
+    db.run(grayConfigs.groupBy{t=>t.serverId->t.key}.map{ case (t1, t2) => t1._1 -> t1._2}.result)
+  }
+
+  def getValuesByServerIdAndKeyFuture(serverId: Long,key:String): Future[Seq[String]] ={
+    db.run(grayConfigs.filter(_.serverId === serverId).filter(t=>(t.serverId===serverId) &&(t.key===key)).map{case r=>r.value.trim}.result)
   }
 }

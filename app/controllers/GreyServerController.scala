@@ -8,13 +8,13 @@ import javax.inject.{Inject, Singleton}
 
 import play.api.mvc.{Action, Controller}
 import pojos._
-import services.GraySystemService
+import services.GrayServerService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class GreyServerController@Inject()(graySystem: GraySystemService) extends Controller {
+class GreyServerController@Inject()(graySystem: GrayServerService) extends Controller {
 
   def index = Action.async { implicit request =>
     graySystem.listAllGraySystems map { graySystems =>

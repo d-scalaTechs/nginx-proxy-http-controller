@@ -67,9 +67,9 @@
                         <li>
                             <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
-                        <li>
-                            <a href="/redis "><i class="fa fa-fw fa-edit"></i>数据同步</a>
-                        </li>
+                        @*<li>*@
+                            @*<a href="/redis "><i class="fa fa-fw fa-edit"></i>数据同步</a>*@
+                        @*</li>*@
                         <li   class="active">
                             <a href="/query "><i class="fa fa-fw fa-edit"></i>关键字查询</a>
                         </li>
@@ -144,24 +144,24 @@
 <script>
 
     $(document).ready(function() {
-             $('#redisP').click(function() {
+             $('#redisSync').click(function() {
                     $.ajax({
-                        type : "get",
-                        url : "/redis/persistence",
+                        type : "post",
+                        url : "/redis/sync",
                         success : function(msg) {
 
                         }
                     })
             });
 
-             $('#redisG').click(function() {
-                    $.ajax({
-                        type : "get",
-                        url : "/redis/get",
-                        success : function(msg) {
-
-                        }
-                    })
-            });
+//             $('#redisG').click(function() {
+//                    $.ajax({
+//                        type : "get",
+//                        url : "/redis/get",
+//                        success : function(msg) {
+//
+//                        }
+//                    })
+//            });
     });
 </script>)

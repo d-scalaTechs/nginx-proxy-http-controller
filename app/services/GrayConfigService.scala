@@ -32,4 +32,12 @@ class GrayConfigService @Inject() (grayConfigs: GrayConfigs)  {
   def listAllGrayConfigs: Future[Seq[GrayConfig]] = {
     grayConfigs.listAll
   }
+
+  def getRedisKeys:  Future[Seq[(Long,String)]]  = {
+    grayConfigs.getRedisKeys
+  }
+
+  def getValuesByServerIdAndKey(serverId: Long,key:String): Future[Seq[String]] = {
+    grayConfigs.getValuesByServerIdAndKeyFuture(serverId,key)
+  }
 }

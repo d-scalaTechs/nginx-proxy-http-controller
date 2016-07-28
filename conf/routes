@@ -9,13 +9,13 @@ GET         /                                                            control
 # An example controller showing how to write asynchronous code
 #GET     /message                    controllers.AsyncController.message
 
-
-
-GET         /user                                                        controllers.UserController.index
-POST        /user/add                                                    controllers.UserController.addUser
-GET         /user/delete/:id                                             controllers.UserController.deleteUser(id : Long)
-GET         /user/:id                                                    controllers.UserController.getUser(id: Long)
-POST        /user/update/:id                                             controllers.UserController.updateUser(id: Long)
+#
+#
+#GET         /user                                                        controllers.UserController.index
+#POST        /user/add                                                    controllers.UserController.addUser
+#GET         /user/delete/:id                                             controllers.UserController.deleteUser(id : Long)
+#GET         /user/:id                                                    controllers.UserController.getUser(id: Long)
+#POST        /user/update/:id                                             controllers.UserController.updateUser(id: Long)
 
 
 GET         /graySystem                                                  controllers.GreyServerController.index
@@ -26,20 +26,23 @@ POST        /graySystem/update/:id                                       control
 
 GET         /graySystem/conf/:grayType                                   controllers.GreyServerController.indexByConf(grayType: String)
 GET         /graySystem/info/:id/:name/:des/:entrance/:systemType        controllers.GreyServerController.detail(id: Long, name: String, des: String,entrance: String,systemType:Int)
-POST        /graySystem/statusChange/:status/:id                          controllers.GreyServerController.updateGrayServerStatus(id:Long,status:Int)
+POST        /graySystem/statusChange/:status/:id                         controllers.GreyServerController.updateGrayServerStatus(id:Long,status:Int)
 
 GET         /grayConfig                                                  controllers.GreyConfigController.index
 POST        /grayConfig/add                                              controllers.GreyConfigController.addGrayConfig
 GET         /grayConfig/delete/:id                                       controllers.GreyConfigController.deleteGrayConfig(id : Long)
 GET         /grayConfig/:id                                              controllers.GreyConfigController.getGrayConfig(id: Long)
 POST        /grayConfig/update/:id                                       controllers.GreyConfigController.updateGrayConfig(id: Long)
+
+GET         /query                                                       controllers.SyncController.page
+POST        /redis/sync                                                  controllers.SyncController.sync
+POST        /redis/verify/:key/:value                                           controllers.SyncController.verify(key:String,value:String)
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                                                controllers.Assets.versioned(path="/public", file: Asset)
 
 
 
-GET         /redis/persistence                                           controllers.RedisController.insertData
-GET         /redis/get                                                   controllers.RedisController.getData
-GET         /redis                                                       controllers.RedisController.page
+#GET         /redis/persistence                                           controllers.RedisController.insertData
+#GET         /redis/get                                                   controllers.RedisController.getData
+#GET         /redis                                                       controllers.RedisController.page
 
-GET         /query                                                       controllers.QueryController.page

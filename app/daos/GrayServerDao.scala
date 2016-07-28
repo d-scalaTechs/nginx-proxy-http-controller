@@ -69,6 +69,13 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   }
 
   def detail(id:Long): Future[Seq[GrayConfig]]= {
-       db.run(grayConfigs.filter(_.systemId === id).result)
+       db.run(grayConfigs.filter(_.serverId === id).result)
+  }
+
+//  def listServersByKey(key: String): Future[Seq[String]]= {
+//    db.run(grayServers.join(grayConfigs).on((t1,t2) => t1.id === t2.serverId).filter{case (t1, t2) => t2.key === key }.map{ case (t1, t2) => t1.entrance}.result )
+//  }
+  def listServers: Future[Seq[GrayConfig]]= {
+      db.run(grayConfigs.map(_.serverId).result)
   }
 }

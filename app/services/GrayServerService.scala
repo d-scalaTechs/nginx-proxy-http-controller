@@ -10,7 +10,7 @@ import scala.concurrent.Future
  *
  * @author Eric on 2016/7/21 15:55
  */
-class GraySystemService @Inject() (grayServers: GrayServers)  {
+class GrayServerService @Inject() (grayServers: GrayServers)  {
 
   def addGraySystem(graySystem: GrayServer): Future[String] = {
     grayServers.add(graySystem)
@@ -42,5 +42,10 @@ class GraySystemService @Inject() (grayServers: GrayServers)  {
 
   def getGraySystemDetail(id: Long):Future[Seq[GrayConfig]] = {
     grayServers.detail(id)
+  }
+
+
+  def listServers(): Future[Int] = {
+    grayServers.listServers
   }
 }
