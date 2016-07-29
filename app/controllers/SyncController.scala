@@ -25,7 +25,7 @@ class SyncController @Inject()(grayServerService: GrayServerService) extends Con
 
   def sync()= Action.async { implicit request =>
     grayServerService.buildRedisKeyAndValue map(keys=>{
-      val jedis = new Jedis("127.0.0.1", 6379);
+      val jedis = new Jedis("10.168.13.96", 6379);
       for (key<-keys){
         val redisKey  = "gray."+(if(key._1==1) "web" else if(key._1==2){"oss"})+"."+key._2+"."+key._4
         val redisValue = key._3
