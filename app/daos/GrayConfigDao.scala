@@ -15,7 +15,7 @@ import models._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class GrayConfigTableDef(tag: Tag) extends Table[models.GrayConfig](tag, "grey_config") {
+class GrayConfigTableDef(tag: Tag) extends Table[models.GrayConfig](tag, "grey_configs") {
   implicit val JavaUtilDateMapper =
     MappedColumnType.base[java.util.Date, java.sql.Timestamp] (
       d => new java.sql.Timestamp(d.getTime),
