@@ -2,6 +2,7 @@ package controllers
 
 import javax.inject._
 
+import play.Play
 import play.api.libs.json.Json
 import play.api.mvc._
 import redis.clients.jedis.Jedis
@@ -50,7 +51,7 @@ class SyncController @Inject()(grayServerService: GrayServerService) extends Con
   def verifyRedis(value:String)= Action.async {
     val redisList = ListBuffer[String]()
     grayServerService.buildRedisKey map{redisKeys =>
-      val jedis = new Jedis("127.0.0.1", 6379)
+      val jedis = new Jedis("10.168.13.96", 6379)
       for (key<-redisKeys){
         val redisKey  = "gray."+(if(key._1==1) "web" else if(key._1==2){"oss"})+"."+key._2 +"."+value
         if(jedis.exists(redisKey )){
