@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50631
 File Encoding         : 65001
 
-Date: 2016-07-28 20:49:22
+Date: 2016-07-29 11:02:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,9 +33,9 @@ CREATE TABLE `grey_servers` (
 -- ----------------------------
 -- Records of grey_servers
 -- ----------------------------
-INSERT INTO `grey_servers` VALUES ('1', 'sandbox1-oss', 'sandbox1   oss order', '127.0.0.1:8080', '1', 'order', '1');
-INSERT INTO `grey_servers` VALUES ('2', 'sandbox1-oss', 'sandbox1   oss crm', '127.0.0.1:8080', '1', 'crm', '1');
-INSERT INTO `grey_servers` VALUES ('3', 'sandbox1-oss', 'sandbox1   oss admin', '127.0.0.1:8080', '1', 'admin', '1');
-INSERT INTO `grey_servers` VALUES ('4', 'sandbox2-web', 'sandbox2   web www', '127.0.0.1:8080', '2', 'www', '1');
-INSERT INTO `grey_servers` VALUES ('5', 'sandbox2-web', 'sandbox2   web pai', '127.0.0.1:8080', '2', 'pai', '1');
-INSERT INTO `grey_servers` VALUES ('6', 'sandbox2-web', 'sandbox2   web etrade', '127.0.0.1:8080', '2', 'etrade', '1');
+INSERT INTO `grey_servers` VALUES ('1', 'sandbox1-oss', 'sandbox1   oss order', '127.0.0.1:8081', '1', 'order', '1');
+INSERT INTO `grey_servers` VALUES ('2', 'sandbox1-oss', 'sandbox1   oss crm', '127.0.0.1:8082', '1', 'crm', '1');
+INSERT INTO `grey_servers` VALUES ('3', 'sandbox1-oss', 'sandbox1   oss admin', '127.0.0.1:8083', '1', 'admin', '1');
+INSERT INTO `grey_servers` VALUES ('4', 'sandbox2-web', 'sandbox2   web www', '192.168.0.2:8080', '2', 'www', '1');
+INSERT INTO `grey_servers` VALUES ('5', 'sandbox2-web', 'sandbox2   web pai', '192.168.0.2:8080', '2', 'pai', '1');
+INSERT INTO `grey_servers` VALUES ('6', 'sandbox2-web', 'sandbox2   web etrade', '192.168.0.2:8080', '2', 'etrade', '1');
