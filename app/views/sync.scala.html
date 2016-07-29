@@ -149,17 +149,41 @@
                         type : "post",
                         url : "/redis/sync",
                         success : function(msg) {
-
+                          var obj = jQuery.parseJSON(msg);
+                            if(0== obj.result){
+                               alert("数据同步成功");
+                            }
                         }
                     })
             });
 
              $('#btnQuery').click(function() {
+                     $('#valueRedis').text("");
+                     $('#valueDB').text("");
+
                     $.ajax({
                         type : "post",
-                        url : "/consistency/query/"+$('#queryValue').val(),
+                        url : "/verifyRedis/"+$('#queryValue').val(),
                         success : function(msg) {
+                        var obj = jQuery.parseJSON(msg);
+                            if (obj.result!=-1){
+                                $('#valueRedis').text(obj.result)
+                            }else{
+                                $('#valueRedis').text("没有缓存记录");
+                            }
+                        }
+                    });
 
+                    $.ajax({
+                        type : "post",
+                        url : "/verifyMysql/"+$('#queryValue').val(),
+                        success : function(msg) {
+                             var obj = jQuery.parseJSON(msg);
+                             if (obj.result!=-1){
+                                $('#valueDB').text(obj.result);
+                             }else{
+                                $('#valueDB').text("没有记录");
+                             }
                         }
                     })
             });

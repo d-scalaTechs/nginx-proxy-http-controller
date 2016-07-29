@@ -73,7 +73,7 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   }
 
   def listServersByValue(value: String): Future[Seq[String]]= {
-    db.run(grayServers.join(grayConfigs).on((t1,t2) => t1.id === t2.serverId).filter{case (t1, t2) => t2.key === value }.map{ case (t1, t2) => t1.entrance}.result )
+    db.run(grayServers.join(grayConfigs).on((t1,t2) => t1.id === t2.serverId).filter{case (t1, t2) => t2.value === value }.map{ case (t1, t2) => t1.entrance}.result )
   }
 
 
@@ -83,9 +83,9 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     )
   }
 
-  def buildRedisKey: Future[Seq[(Int,String,String)]]={
+  def buildRedisKey: Future[Seq[(Int,String)]]={
     db.run(
-      grayServers.filter(_.status===1).map{t1=>(t1.systemType,t1.subSystem,t1.entrance)}.result
+      grayServers.filter(_.status===1).map{t1=>(t1.systemType,t1.subSystem)}.result
     )
   }
 }

@@ -36,7 +36,8 @@ POST        /grayConfig/update/:id                                       control
 
 GET         /query                                                       controllers.SyncController.page
 POST        /redis/sync                                                  controllers.SyncController.sync
-POST         /consistency/query/:value                                            controllers.SyncController.verify(value:String)
+POST        /verifyRedis/:value                                          controllers.SyncController.verifyRedis(value:String)
+POST        /verifyMysql/:value                                          controllers.SyncController.verifyMysql(value:String)
 
 #POST        /redis/verify/:key/:value                                           controllers.SyncController.verify(key:String,value:String)
 # Map static resources from the /public folder to the /assets URL path

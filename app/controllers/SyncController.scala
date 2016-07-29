@@ -47,31 +47,31 @@ class SyncController @Inject()(grayServerService: GrayServerService) extends Con
 //    }
   }
 
-  def verify(value:String)= Action.async {
+  def verifyRedis(value:String)= Action.async {
     val redisList = ListBuffer[String]()
-    val mysqlList = ListBuffer[String]()
-
     grayServerService.buildRedisKey map{redisKeys =>
       val jedis = new Jedis("127.0.0.1", 6379)
       for (key<-redisKeys){
-          if(jedis.exists(key +"."+value)){
-            redisList.append(jedis.get(key +"."+value))
-          }
+        val redisKey  = "gray."+(if(key._1==1) "web" else if(key._1==2){"oss"})+"."+key._2 +"."+value
+        if(jedis.exists(redisKey )){
+          redisList.append(jedis.get(redisKey))
+        }
       }
       jedis.close()
+
+      Ok("{\"result\":"+(if(redisList.size>0){Json.toJson(redisList)}else{-1})+"}")
     }
-     grayServerService.listServersByValue(value) map{servers =>
-          for(server<-servers){
-            mysqlList.append(server)
-          }
+  }
 
-       println("redisList: " + redisList)
-       println("mysqlList: " + mysqlList)
-       Ok("{\"result\":"+Json.toJson(redisList)+"}")
-     }
-
-
-
+    def verifyMysql(value:String)= Action.async {
+      val mysqlList = ListBuffer[String]()
+      grayServerService.listServersByValue(value) map{servers =>
+        println(servers)
+        for(server<-servers){
+          mysqlList.append(server)
+        }
+        Ok("{\"result\":"+(if(mysqlList.size>0){Json.toJson(mysqlList)}else{-1})+"}")
+      }
 
 
   }
