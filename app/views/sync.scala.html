@@ -1,4 +1,4 @@
-@()(value:String)
+@()(subs:Seq[SubSystem])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,47 +82,68 @@
 
                 <div class="container-fluid">
 
-                        <!-- Page Heading -->
                     <div class="row">
-                        <div class="col-lg-12">
-                            <h1 class="page-header">
-                                 <small>
-                                     <a id="redisSync" class="btn btn-primary btn-lg" role="button" href="#">缓存同步</a>
-                                 </small>
-                            </h1>
-                        </div>
-                    </div>
+                        <div class="row">
+                                <div class="col-md-3">
 
-
-                    <div class="row col-lg-3 col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title "><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;mysql, redis&nbsp;数据查询</h3>
-                            </div>
-                            <div class="panel-body ">
-                                    <!-- /.row -->
-                                <div class="row">
-                                    <div class="form-group input-group">
-                                        <input id="queryValue" type="text" class="form-control" id="key" name="key" placeholder="请输入" required >
-                                        <span class="input-group-btn"><button id="btnQuery" class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
-                                    </div>
                                 </div>
-
-                                <div class="row " style="padding-top: 30px">
-                                        <div class="form-group">
-                                            <label>数据库结果</label>
-                                            <textarea  id="valueDB" name="valueDB" class="form-control"></textarea>
+                                <div class="col-md-6">
+                                        <!-- Page Heading -->
+                                    <div class="row">
+                                        <div>
+                                            <h1 class="page-header">
+                                                <small>
+                                                    <a id="redisSync" class="btn btn-primary btn-lg" role="button" href="#">缓存同步</a>
+                                                </small>
+                                            </h1>
                                         </div>
-                                        <div class="form-group" style="padding-top: 30px">
-                                            <label>Redis缓存结果</label>
-                                            <textarea  id="valueRedis" name="valueRedis"  class="form-control"></textarea>
-                                         </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="panel panel-default ">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title "><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;mysql, redis&nbsp;数据查询</h3>
+                                            </div>
+                                            <div class="panel-body ">
+                                                <div class="row">
+                                                    <label>子系统名称</label>
+                                                    <select class="form-control" name="subSystemId" id="subSystemId">
+                                                    @for(sub<-subs){
+                                                        <option value="@sub.id">@sub.name</option>
+                                                    }
+                                                    </select>
+                                                    @*<input id="subSystem" name="subSystem" value="subSystem1" class="form-control" placeholder="请输入">*@
+                                                </div>
+                                                    <!-- /.row -->
+                                                <div class="row" style="padding-top: 30px">
+                                                    <label>灰度值</label>
+                                                    <div class="form-group input-group">
+                                                        <input id="queryValue" type="text" class="form-control" id="key" name="key" placeholder="请输入" required >
+                                                        <span class="input-group-btn"><button id="btnQuery" class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row " style="padding-top: 30px">
+                                                    <div class="form-group">
+                                                        <label>数据库结果</label>
+                                                        <textarea  id="valueDB" name="valueDB" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="form-group" style="padding-top: 30px">
+                                                        <label>Redis缓存结果</label>
+                                                        <textarea  id="valueRedis" name="valueRedis"  class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                    <!-- /.row -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <!-- /.row -->
                                 </div>
-                                    <!-- /.row -->
-                            </div>
                         </div>
+
                     </div>
-                        <!-- /.row -->
+
                 </div>
                     <!-- /.container-fluid -->
 
@@ -160,32 +181,35 @@
              $('#btnQuery').click(function() {
                      $('#valueRedis').text("");
                      $('#valueDB').text("");
+                    if($('#queryValue').val()==""){
+                        alert("灰度值不能为空");
+                    }else{
+                        $.ajax({
+                                type : "post",
+                                url : "/verifyRedis/"+$('#queryValue').val(),
+                                success : function(msg) {
+                                var obj = jQuery.parseJSON(msg);
+                                if (obj.result!=-1){
+                                    $('#valueRedis').text(obj.result)
+                                    }else{
+                                    $('#valueRedis').text("没有缓存记录");
+                                    }
+                                }
+                            });
 
-                    $.ajax({
-                        type : "post",
-                        url : "/verifyRedis/"+$('#queryValue').val(),
-                        success : function(msg) {
-                        var obj = jQuery.parseJSON(msg);
-                            if (obj.result!=-1){
-                                $('#valueRedis').text(obj.result)
-                            }else{
-                                $('#valueRedis').text("没有缓存记录");
-                            }
-                        }
-                    });
-
-                    $.ajax({
-                        type : "post",
-                        url : "/verifyMysql/"+$('#queryValue').val(),
-                        success : function(msg) {
-                             var obj = jQuery.parseJSON(msg);
-                             if (obj.result!=-1){
+                            $.ajax({
+                                type : "post",
+                                url : "/verifyMysql/"+$('#queryValue').val(),
+                                success : function(msg) {
+                                var obj = jQuery.parseJSON(msg);
+                                if (obj.result!=-1){
                                 $('#valueDB').text(obj.result);
-                             }else{
-                                $('#valueDB').text("没有记录");
-                             }
-                        }
-                    })
+                                    }else{
+                                    $('#valueDB').text("没有记录");
+                                    }
+                                }
+                            })
+                     }
             });
     });
 </script>)

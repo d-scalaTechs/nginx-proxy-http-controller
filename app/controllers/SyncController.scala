@@ -5,7 +5,7 @@ import javax.inject._
 import play.api.libs.json.Json
 import play.api.mvc._
 import redis.clients.jedis.Jedis
-import services.GrayServerService
+import services.{SubSystemsService, GrayServerService}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,10 +16,13 @@ import scala.concurrent.Future
  * @author Eric on 2016/7/21 15:55
  */
 @Singleton
-class SyncController @Inject()(grayServerService: GrayServerService) extends Controller {
+class SyncController @Inject()(grayServerService: GrayServerService,subSystemsService:SubSystemsService) extends Controller {
 
   def page = Action.async { implicit request =>
-      Future.successful( Ok(views.html.sync.render("page")))
+    subSystemsService.listAll map { subSystems =>
+      Ok(views.html.sync.render(subSystems))
+    }
+//      Future.successful( Ok(views.html.sync.render("page")))
   }
 
   def sync()= Action.async { implicit request =>
