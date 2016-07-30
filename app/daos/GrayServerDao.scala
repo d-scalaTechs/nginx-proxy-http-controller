@@ -52,9 +52,10 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   def update(graySystem: GrayServer): Future[Int] = {
     db.run(grayServers.filter(_.id === graySystem.id).update(graySystem))
   }
-  def get(id: Long): Future[GrayServer] = {
-    db.run(grayServers.filter(_.id === id).result.head)
-  }
+
+//  def get(id: Long): GrayServer = {
+//    val x= grayServers.filter(_.id === id)
+//  }
 
   def listAll: Future[Seq[GrayServer]] = {
     db.run(grayServers.result)
