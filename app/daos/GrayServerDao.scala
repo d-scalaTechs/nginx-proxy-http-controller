@@ -79,12 +79,12 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   }
 
 
-  def buildRedisKeyAndValue: Future[Seq[(String,String,String)]]={
+  def buildRedisKeyAndValue: Future[Seq[(String,String,String,String)]]={
     db.run(
       grayServers.filter(_.status===1).
         join(grayConfigs).on{(t1,t2) => t1.id === t2.serverId }.
         join(subSystems).on{case ((t1,t2),t3)=>t1.subSystemId === t3.id}
-        .map{case ((t1,t2),t3)=>(t3.name,t2.key,t2.value)}.result
+        .map{case ((t1,t2),t3)=>(t3.name,t2.key,t2.value,t1.entrance)}.result
     )
   }
 

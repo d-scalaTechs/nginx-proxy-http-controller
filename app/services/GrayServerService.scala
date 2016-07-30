@@ -44,7 +44,7 @@ class GrayServerService @Inject() (grayServers: GrayServers)  {
     grayServers.detail(id)
   }
 
-  def buildRedisKeyAndValue: Future[Seq[(String,String,String)]] = {
+  def buildRedisKeyAndValue: Future[Seq[(String,String,String,String)]] = {
     //    grayConfigs.getValuesByServerIdAndKeyFuture(serverId,key)
     grayServers.buildRedisKeyAndValue
   }
