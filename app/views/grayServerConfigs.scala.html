@@ -108,19 +108,19 @@
                                         <input type="hidden" id="systemId" name="systemId" value="@graySystem.id">
                                         <div class="form-group">
                                             <label>灰度主题</label>
-                                            <input id="key" name="key" value="staffName" class="form-control" placeholder="staffName" disabled>
+                                            <input id="key" name="key"  value="staffName" class="form-control" placeholder="staffName" disabled/>
                                         </div>
                                         <div class="form-group">
                                             <label>灰度值</label>
                                             <input id="value" name="value" value="" class="form-control" placeholder="请输入" required>
                                         </div>
-                                        <button type="submit" class="btn btn-default">新增</button>
+                                        <button id="confFormSybmit" type="submit" class="btn btn-default" disabled>新增</button>
                                         <button type="reset" class="btn btn-default">取消</button>
 
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
                                     @*<button type="button" class="btn btn-primary">Save changes</button>*@
                                 </div>
                             </div>
@@ -142,9 +142,11 @@
                                 <div class="panel-body">
                                     <div id="graySystemPanel" >
                                        <h4>名称：@graySystem.name</h4>
-                                        <h4>类型: @if(1 == graySystem.serverType) {WEB} else {OSS}</h4>
+                                       <h4>子系统名：@graySystem.subSystemName</h4>
+                                       <h4>类型: @if(1 == graySystem.serverType) {WEB} else {OSS}</h4>
                                        <h4>地址：@graySystem.entrance</h4>
                                        <h4>描述：@graySystem.description</h4>
+                                       <h4>状态：@graySystem.status</h4>
                                     </div>
 
                                     <div id="graySystemForm" style="display: none">
@@ -255,7 +257,28 @@
                     $(this).addClass('selected');
                 }
             });
-
+            $('#value' ).blur(function () {
+                    $("#confFormSybmit").attr({"disabled":"disabled"});
+            });
+            $('#value' ).blur(function () {
+                var key=$("#key").val();
+                var id = $("#systemId").val();
+                var value = encodeURI($("#value").val());
+                $.ajax({
+                    type : "post",
+                    url : "/grayConfig/verify/"+id+"/"+key+"/"+value,
+                    success : function(msg) {
+                            var obj = jQuery.parseJSON(msg);
+                            if(0== obj.result){
+                                $("#confFormSybmit").removeAttr("disabled");
+                            }else{
+                                alert("不可重复该灰度名单")
+                                $(this ).focus();
+                                $("#confFormSybmit").attr({"disabled":"disabled"});
+                            }
+                        }
+                    })
+            });
             $('#confDelete').click(function() {
                 var trobj = table.$('tr.selected');
                 var currentIndex=$("li[class='paginate_button active']").children("a").text();

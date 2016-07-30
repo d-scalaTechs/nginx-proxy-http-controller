@@ -32,6 +32,8 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
 
   def detail(id: Long) = Action.async{ implicit request =>
        val newGraySystem = nativeDao.getGrayServer(id)
+
+       println(newGraySystem)
        graySystem.getGraySystemDetail(id) map {systemInfo=>
          Ok(views.html.grayServerConfigs.render(newGraySystem,systemInfo))
        }

@@ -33,6 +33,8 @@ POST        /grayConfig/add                                              control
 GET         /grayConfig/delete/:id                                       controllers.GreyConfigController.deleteGrayConfig(id : Long)
 GET         /grayConfig/:id                                              controllers.GreyConfigController.getGrayConfig(id: Long)
 POST        /grayConfig/update/:id                                       controllers.GreyConfigController.updateGrayConfig(id: Long)
+POST        /grayConfig/verify/:id/:key/:value                           controllers.GreyConfigController.validate(id: Long,key:String,value:String)
+
 
 GET         /query                                                       controllers.SyncController.page
 POST        /redis/sync                                                  controllers.SyncController.sync

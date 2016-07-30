@@ -33,9 +33,9 @@ CREATE TABLE `grey_servers` (
 -- ----------------------------
 -- Records of grey_servers
 -- ----------------------------
-INSERT INTO `grey_servers` VALUES ('1', 'sandbox1-oss', 'sandbox1   oss order', '127.0.0.1:8081', '1', '1', '1');
-INSERT INTO `grey_servers` VALUES ('2', 'sandbox1-oss', 'sandbox1   oss crm', '127.0.0.1:8082', '1', '2', '1');
-INSERT INTO `grey_servers` VALUES ('3', 'sandbox1-oss', 'sandbox1   oss admin', '127.0.0.1:8083', '1', '3', '1');
-INSERT INTO `grey_servers` VALUES ('4', 'sandbox2-web', 'sandbox2   web www', '192.168.0.2:8081', '2', '4', '1');
-INSERT INTO `grey_servers` VALUES ('5', 'sandbox2-web', 'sandbox2   web pai', '192.168.0.2:8082', '2', '5', '1');
-INSERT INTO `grey_servers` VALUES ('6', 'sandbox2-web', 'sandbox2   web etrade', '192.168.0.2:8083', '2', '6', '1');
+INSERT INTO `grey_servers` VALUES ('1', 'sandbox1-oss', 'sandbox1   oss order', '127.0.0.1:8081', '2', '1', '1');
+INSERT INTO `grey_servers` VALUES ('2', 'sandbox1-oss', 'sandbox1   oss crm', '127.0.0.1:8082', '2', '2', '1');
+INSERT INTO `grey_servers` VALUES ('3', 'sandbox1-oss', 'sandbox1   oss admin', '127.0.0.1:8083', '2', '3', '1');
+INSERT INTO `grey_servers` VALUES ('4', 'sandbox2-web', 'sandbox2   web www', '192.168.0.2:8081', '1', '4', '1');
+INSERT INTO `grey_servers` VALUES ('5', 'sandbox2-web', 'sandbox2   web pai', '192.168.0.2:8082', '1', '5', '1');
+INSERT INTO `grey_servers` VALUES ('6', 'sandbox2-web', 'sandbox2   web etrade', '192.168.0.2:8083', '1', '6', '1');

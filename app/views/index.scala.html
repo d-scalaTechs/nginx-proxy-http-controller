@@ -1,4 +1,4 @@
-@()(grayServers : Seq[models.GrayServer])
+@()(subNames:List[SubSystem],grayServers : Seq[models.GrayServer])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -157,37 +157,32 @@
 
                                         <div class="form-group">
                                             <label>系统归类</label>
-                                            <div class="radio">
-                                                <label>
+                                                <label class="radio-inline">
                                                     <input type="radio" name="serverType" id="serverType1" value="1" checked>WEB
                                                 </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="serverType" id="serverType2" value="2">OSS
+                                                <label  class="radio-inline">
+                                                        <input type="radio" name="serverType" id="serverType2" value="2">OSS
                                                 </label>
-                                            </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>状态</label>
-                                            <div class="radio">
-                                                <label>
+                                                <label  class="radio-inline">
                                                     <input type="radio" name="status" id="status1" value="1" checked>启用
                                                 </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
+                                                <label  class="radio-inline">
                                                     <input type="radio" name="status" id="status2" value="0">禁用
                                                 </label>
-                                            </div>
-
                                         </div>
                                         <div class="form-group">
                                             <label>子系统名称</label>
-                                            <input id="subSystem" name="subSystem" value="subSystem1" class="form-control" placeholder="请输入">
+                                            <select class="form-control" name="subSystemId">
+                                                @for(sub<-subNames){
+                                                    <option value="@sub.id">@sub.name</option>
+                                                 }
+                                            </select>
+                                            @*<input id="subSystem" name="subSystem" value="subSystem1" class="form-control" placeholder="请输入">*@
                                         </div>
-
                                         <div class="form-group">
                                             <label>描述</label>
                                             <input id="description" name="description" value="des" class="form-control" placeholder="请输入">
