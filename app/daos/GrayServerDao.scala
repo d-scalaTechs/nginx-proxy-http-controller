@@ -20,12 +20,12 @@ class GrayServersTableDef(tag: Tag) extends Table[models.GrayServer](tag, "grey_
   def name = column[String]("name")
   def description = column[String]("description")
   def entrance = column[String]("entrance")
-  def systemType= column[Int]("server_type")
-  def subSystem= column[String]("sub_system")
+  def serverType= column[Int]("server_type")
+  def subSystemId= column[Long]("sub_system_id")
   def status= column[Int]("status")
 
   override def * =
-    (id, name, description, entrance,systemType,subSystem,status) <>(GrayServer.tupled, GrayServer.unapply)
+    (id, name, description, entrance,serverType,subSystemId,status) <>(GrayServer.tupled, GrayServer.unapply)
 }
 
 
@@ -33,6 +33,7 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   val grayServers = TableQuery[GrayServersTableDef]
   val grayConfigs = TableQuery[GrayConfigTableDef]
+  val subSystems = TableQuery[SubSystemsTableDef]
 
   def add(graySystem: GrayServer): Future[String] = {
     db.run(grayServers += graySystem).map(res => "grayServers successfully added").recover {
@@ -65,7 +66,7 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 //      .on((t1,t2) => t1.id === t2.systemId )
 //      .filter{case (t1, t2) => t1.systemType === id }
 //      .map{ case (t1, t2) => t1 }.result )
-    db.run(grayServers.filter(_.systemType === id).result)
+    db.run(grayServers.filter(_.serverType === id).result)
   }
 
   def detail(id:Long): Future[Seq[GrayConfig]]= {
@@ -77,15 +78,18 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   }
 
 
-  def buildRedisKeyAndValue: Future[Seq[(Int,String,String,String)]]={
+  def buildRedisKeyAndValue: Future[Seq[(String,String,String)]]={
     db.run(
-      grayServers.filter(_.status===1).join(grayConfigs).on((t1,t2) => t1.id === t2.serverId ).map{case (t1,t2)=>(t1.systemType,t1.subSystem,t1.entrance,t2.value)}.result
+      grayServers.filter(_.status===1).
+        join(grayConfigs).on{(t1,t2) => t1.id === t2.serverId }.
+        join(subSystems).on{case ((t1,t2),t3)=>t1.subSystemId === t3.id}
+        .map{case ((t1,t2),t3)=>(t3.name,t2.key,t2.value)}.result
     )
   }
 
   def buildRedisKey: Future[Seq[(Int,String)]]={
     db.run(
-      grayServers.filter(_.status===1).map{t1=>(t1.systemType,t1.subSystem)}.result
+      grayServers.filter(_.status===1).join(subSystems).on((t1,t2)=>t1.subSystemId === t2.id).map{case(t1,t2)=>(t1.serverType,t2.name)}.result
     )
   }
 }

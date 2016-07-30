@@ -2,11 +2,10 @@ package controllers
 
 import javax.inject._
 
-import play.Play
 import play.api.libs.json.Json
 import play.api.mvc._
 import redis.clients.jedis.Jedis
-import services.{GrayServerService}
+import services.GrayServerService
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -27,7 +26,7 @@ class SyncController @Inject()(grayServerService: GrayServerService) extends Con
     grayServerService.buildRedisKeyAndValue map(keys=>{
       val jedis = new Jedis("10.168.13.96", 6379);
       for (key<-keys){
-        val redisKey  = "gray."+(if(key._1==1) "web" else if(key._1==2){"oss"})+"."+key._2+"."+key._4
+        val redisKey  = "gray."+"."+key._1+"."+key._2
         val redisValue = key._3
         println("redis key: " + redisKey +"  -->  redis value: " + redisValue)
         jedis.set(redisKey,redisValue)
