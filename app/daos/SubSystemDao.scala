@@ -29,4 +29,7 @@ class SubSystems @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
     db.run(subSystems.result)
   }
 
+  def getSubSystemName(subSystemId:Long): Future[Option[SubSystem]] = {
+    db.run(subSystems.filter(_.id===subSystemId).result.headOption)
+  }
 }

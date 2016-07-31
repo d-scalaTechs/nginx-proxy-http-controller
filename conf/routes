@@ -38,8 +38,8 @@ POST        /grayConfig/verify/:id/:key/:value                           control
 
 GET         /query                                                       controllers.SyncController.page
 POST        /redis/sync                                                  controllers.SyncController.sync
-POST        /verifyRedis/:value                                          controllers.SyncController.verifyRedis(value:String)
-POST        /verifyMysql/:value                                          controllers.SyncController.verifyMysql(value:String)
+POST        /verifyRedis/:subSystemId/:value                             controllers.SyncController.verifyRedis(subSystemId:Long,value:String)
+POST        /verifyMysql/:subSystemId/:value                             controllers.SyncController.verifyMysql(subSystemId:Int,value:String)
 
 #GET         /jdbc                                                       controllers.JdbcController.index
 #POST        /redis/verify/:key/:value                                           controllers.SyncController.verify(key:String,value:String)

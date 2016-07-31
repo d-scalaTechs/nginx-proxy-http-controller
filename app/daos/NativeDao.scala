@@ -64,4 +64,22 @@ class NativeDao @Inject()(db: Database) {
       conn.close()
     }
   }
+
+  def getEntrancesBySubSystemIdAndValue(subSystemId:Long, value:String) : ListBuffer[String]= {
+    val syncDataList = ListBuffer[String]()
+    val conn = db.getConnection()
+    try {
+      val stmt = conn.createStatement
+      val rs = stmt.executeQuery("SELECT t1.`key` as field, t2.entrance as entrance " +
+        " FROM grey_configs AS t1 LEFT JOIN   grey_servers AS t2 ON t1.server_id = t2.id" +
+        " LEFT JOIN  sub_systems AS t3 ON t2.sub_system_id = t3.id " +
+        " WHERE   t1.value = '"+value+"' AND t3.id = "+subSystemId)
+      while(rs.next()){
+        syncDataList.append(rs.getString("field")+" ->  "+rs.getString("entrance")+"\n")
+      }
+      syncDataList
+    } finally {
+      conn.close()
+    }
+  }
 }

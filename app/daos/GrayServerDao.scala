@@ -74,10 +74,6 @@ class GrayServers @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
        db.run(grayConfigs.filter(_.serverId === id).result)
   }
 
-  def listServersByValue(value: String): Future[Seq[String]]= {
-    db.run(grayServers.join(grayConfigs).on((t1,t2) => t1.id === t2.serverId).filter{case (t1, t2) => t2.value === value }.map{ case (t1, t2) => t1.entrance}.result )
-  }
-
 
   def buildRedisKeyAndValue: Future[Seq[(String,String,String,String)]]={
     db.run(

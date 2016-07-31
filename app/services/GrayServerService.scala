@@ -52,7 +52,4 @@ class GrayServerService @Inject() (grayServers: GrayServers)  {
   def buildRedisKey: Future[Seq[(Int,String)]] = {
     grayServers.buildRedisKey
   }
-  def listServersByValue(value: String): Future[Seq[String]]= {
-    grayServers.listServersByValue(value)
-  }
 }
