@@ -277,7 +277,9 @@
    $('#update').click(function() {
        $("#grayServerModalLabel" ).text("修改灰度系统");
        $("#submit" ).text("修改");
-       var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
+   $("#statusLabel").attr({"style":"display:none"});
+
+   var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
                  var serverId = opDiv.attr('id');
                  var grayServerName = $("input[name='name']").val();
                  var grayServerType = $("input[name='serverType']").val();
