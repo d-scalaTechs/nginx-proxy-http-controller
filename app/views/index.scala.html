@@ -158,10 +158,10 @@
                                     <h4 class="modal-title" id="grayServerModalLabel">新增灰度系统</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form role="form" name="grayForm" action="/graySystem/add"  method="post" >
+                                    <form role="form" name="grayForm" id="grayForm" action="/graySystem/add"  method="post" >
                                         <div class="form-group">
                                             <label>系统名称</label>
-                                            <input id="name" name="name" value="name" class="form-control" placeholder="请输入">
+                                            <input id="name" name="name" value="" class="form-control" placeholder="请输入">
                                         </div>
 
                                         <div class="form-group">
@@ -175,33 +175,33 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label>状态</label>
-                                            <label  class="radio-inline">
-                                                <input type="radio" name="status" id="status2" value="0" checked>禁用
-                                            </label>
-                                            <label  class="radio-inline">
-                                                <input type="radio" name="status" id="status1" value="1" >启用
-                                            </label>
-
-                                        </div>
-                                        <div class="form-group">
                                             <label>子系统名称</label>
-                                            <select class="form-control" name="subSystemId">
+                                            <select class="form-control" name="subSystemId" id="subSystemId">
                                                 @for(sub<-subNames){
                                                     <option value="@sub.id">@sub.name</option>
                                                  }
                                             </select>
                                             @*<input id="subSystem" name="subSystem" value="subSystem1" class="form-control" placeholder="请输入">*@
                                         </div>
+
+                                        <div class="form-group" style="display: none" id="statusLabel">
+                                            <label>状态</label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="status" id="status1" value="0" checked>禁用
+                                            </label>
+                                            <label  class="radio-inline">
+                                                <input type="radio" name="status" id="status2" value="1">启用
+                                            </label>
+                                        </div>
                                         <div class="form-group">
                                             <label>描述</label>
-                                            <input id="description" name="description" value="des" class="form-control" placeholder="请输入">
+                                            <input id="description" name="description" value="" class="form-control" placeholder="请输入">
                                         </div>
                                         <div class="form-group">
                                             <label>地址(IP:Port)</label>
-                                            <input id="entrance" name="entrance" value="127.0.0.1:8000" class="form-control" placeholder="请输入">
+                                            <input id="entrance" name="entrance" value="" class="form-control" placeholder="请输入">
                                         </div>
-                                        <button type="submit" class="btn btn-default">新增</button>
+                                        <button type="submit" class="btn btn-default" id="submit">新增</button>
 
                                     </form>
                                 </div>
@@ -254,34 +254,57 @@
 </html>
 <script>
    $(document).ready(function() {
-             $('#update').click(function() {
-                 var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
-                 var serverId = opDiv.attr('id');
 
+
+   $('#add').click(function() {
+       $("#grayServerModalLabel" ).text("新增灰度系统");
+       $("#submit" ).text("新增");
+
+       $("#statusLabel").attr({"style":"display:block"});
+       $("input[name='name']").val("");
+       $("input[name='description']").val("");
+       $("input[name='entrance']").val("");
+
+
+//       $("input[name='serverType']").val(1);
+//       $("input[name='status']").val(0);
+       $("#subSystemId").val(1);
+
+
+       $("form[name='grayForm']").attr('action','/graySystem/add');
+   });
+
+   $('#update').click(function() {
+       $("#grayServerModalLabel" ).text("修改灰度系统");
+       $("#submit" ).text("修改");
+       var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
+                 var serverId = opDiv.attr('id');
                  var grayServerName = $("input[name='name']").val();
                  var grayServerType = $("input[name='serverType']").val();
+
                  var status = $("input[name='status']").val();
                  var subSystemId = $("select[name='subSystemId']").val();
+
                  var description = $("input[name='description']").val();
                  var entrance= $("input[name='entrance']").val();
                  var formAction= $("form[name='grayForm']").attr('action');
 
+                    console.log("grayServerType: "+ grayServerType);
                  $.ajax({
-                    type : "post",
-                    url : "/graySystem/"+serverId,
-                    success : function(msg) {
-                        console.log("msg"+msg)
+                        type : "post",
+                        url : "/graySystem/"+serverId,
+                        success : function(msg) {
+                            var obj = jQuery.parseJSON(msg);
+                            var grayServer = obj.result;
+                            $("input[name='name']").val(grayServer.name);
+                            $("input[name='status']").val(grayServer.status);
+                            $("input[type=radio][name='serverType'][value="+grayServer.serverType+"]").attr("checked",'checked');
+                            $("#subSystemId").val(grayServer.subSystemId);
+                            $("input[name='description']").val(grayServer.description);
+                            $("input[name='entrance']").val(grayServer.entrance);
+                            $("form[name='grayForm']").attr('action','/graySystem/update/'+serverId);
                     }
                 });
-
-//                 alert("grayServerName: "+ grayServerName);
-//                 alert("grayServerType: "+ grayServerType);
-//                 alert("status: "+ status);
-//                 alert("subSystemId: "+ subSystemId);
-//                 alert("description: "+ description);
-//                 alert("entrance: "+ entrance);
-//                 alert("form action: "+ formAction);
-
             });
 
              $('#status').click(function() {

@@ -7,7 +7,6 @@ package controllers
 import javax.inject.{Inject, Singleton}
 
 import daos.NativeDao
-import models.GrayServerDto
 import play.api.mvc.{Action, Controller}
 import pojos._
 import services.GrayServerService
@@ -43,6 +42,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystems.render(0,Seq.empty[models.GrayServer]))),
       data => {
+        println("data: " + data)
         val newGraySystem = models.GrayServer(0, data.name, data.description, data.entrance,data.serverType,data.subSystemId,data.status)
         graySystem.addGraySystem(newGraySystem).map(res =>
           Redirect("/")
@@ -65,7 +65,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
       data => {
         val newGraySystem = models.GrayServer(id, data.name, data.description, data.entrance,data.serverType,data.subSystemId,data.status)
         graySystem.updateGraySystem(newGraySystem).map(res =>
-          Redirect("/graySystem")
+          Redirect("/")
         )
       })
 
@@ -77,13 +77,12 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
      }
   }
 
+  import play.api.libs.json.Json
+  import models.JsonWriteImplicit._
 
-
-
-  def getGraySystem(id: Long) =  Action {
-    import models.JsonWriteImplicit._
-    import play.api.libs.json.Json
-    val newGraySystem = nativeDao.getGrayServer(id)
-    Ok("{\"result\":"+Json.toJson(newGraySystem)+"}")
+  def getGraySystem(id: Long) =  Action.async{ implicit request =>
+    graySystem.getGraySystem(id) map(res=>
+        Ok("{\"result\":"+Json.toJson(res)+"}")
+      )
   }
 }
