@@ -50,7 +50,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/index.html">
-                        <div>快塑网:  @grayConfigForm.errors</div>
+                        <div>快塑网:  @for(error<-grayConfigForm.errors){
+                            <div>@error.message</div>
+                        }</div>
                         快塑网灰度管理平台</a>
                 </div>
                     <!-- Top Menu Items -->

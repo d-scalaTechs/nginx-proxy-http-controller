@@ -31,14 +31,14 @@ CREATE TABLE `grey_configs` (
 -- ----------------------------
 -- Records of grey_configs
 -- ----------------------------
-INSERT INTO `grey_configs` VALUES ('2', 'staffName', 'login1', '3', '2016-07-29 15:58:45');
-INSERT INTO `grey_configs` VALUES ('3', 'staffName', 'login2', '2', '2016-07-29 15:58:49');
-INSERT INTO `grey_configs` VALUES ('4', 'staffName', 'login3', '4', '2016-07-29 15:58:53');
-INSERT INTO `grey_configs` VALUES ('15', 'staffName', 'login4', '1', '2016-07-29 16:10:18');
-INSERT INTO `grey_configs` VALUES ('16', 'staffName', 'login5', '1', '2016-07-29 15:59:02');
-INSERT INTO `grey_configs` VALUES ('18', 'staffName', 'login6', '3', '2016-07-29 15:59:29');
-INSERT INTO `grey_configs` VALUES ('19', 'staffName', 'login7', '3', '2016-07-29 15:59:14');
-INSERT INTO `grey_configs` VALUES ('20', 'staffName', 'login8', '1', '2016-07-29 16:10:20');
-INSERT INTO `grey_configs` VALUES ('21', 'staffName', 'login9', '3', '2016-07-29 16:10:19');
-INSERT INTO `grey_configs` VALUES ('23', 'staffName', 'login10', '6', '2016-07-29 16:10:21');
-INSERT INTO `grey_configs` VALUES ('24', 'staffName', 'login11', '1', '2016-07-29 16:10:22');
+INSERT INTO `grey_configs` VALUES ('1', 'staffName', 'login1', '3', '2016-07-29 15:58:45');
+INSERT INTO `grey_configs` VALUES ('2', 'staffName', 'login2', '2', '2016-07-29 15:58:49');
+INSERT INTO `grey_configs` VALUES ('3', 'staffName', 'login3', '4', '2016-07-29 15:58:53');
+INSERT INTO `grey_configs` VALUES ('4', 'staffName', 'login4', '1', '2016-07-29 16:10:18');
+INSERT INTO `grey_configs` VALUES ('5', 'staffName', 'login5', '1', '2016-07-29 15:59:02');
+INSERT INTO `grey_configs` VALUES ('6', 'staffName', 'login6', '3', '2016-07-29 15:59:29');
+INSERT INTO `grey_configs` VALUES ('7', 'staffName', 'login7', '3', '2016-07-29 15:59:14');
+INSERT INTO `grey_configs` VALUES ('8', 'staffName', 'login8', '1', '2016-07-29 16:10:20');
+INSERT INTO `grey_configs` VALUES ('9', 'staffName', 'login9', '3', '2016-07-29 16:10:19');
+INSERT INTO `grey_configs` VALUES ('10', 'staffName', 'login10', '6', '2016-07-29 16:10:21');
+INSERT INTO `grey_configs` VALUES ('11', 'staffName', 'login11', '1', '2016-07-29 16:10:22');

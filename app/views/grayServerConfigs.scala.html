@@ -1,0 +1,354 @@
+@()(graySystem:GrayServerDto, grayConfigs : Seq[models.GrayConfig])
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>快塑网SOA管理站点</title>
+
+            <!-- Bootstrap Core CSS -->
+        <link href="@routes.Assets.versioned("css/bootstrap.min.css")" rel="stylesheet">
+
+            <!-- Custom CSS -->
+        <link href="@routes.Assets.versioned("css/sb-admin.css")" rel="stylesheet">
+        <link href="@routes.Assets.versioned("css/plugins/dataTables.bootstrap.css")" rel="stylesheet">
+
+            <!-- Custom Fonts -->
+        <link href="@routes.Assets.versioned("font-awesome-4.1.0/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
+
+
+            <!-- Morris Charts CSS -->
+        @*<link href="@routes.Assets.versioned("css/plugins/morris.css")" rel="stylesheet">*@
+
+
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    </head>
+
+    <body>
+
+        <div id="wrapper">
+
+                <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/index.html">快塑网灰度管理平台</a>
+                </div>
+                    <!-- Top Menu Items -->
+                <ul class="nav navbar-right top-nav">
+
+                </ul>
+                    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav side-nav">
+                        <li>
+                            <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
+                        </li>
+                        <li @if(graySystem.serverType==1){class="active"}>
+                            <a href="/graySystem/conf/web"><i class="fa fa-fw fa-table"></i>WEB</a>
+                        </li>
+                        <li @if(graySystem.serverType==2){class="active"}>
+                            <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
+                        </li>
+                        @*<li>*@
+                            @*<a href="/redis "><i class="fa fa-fw fa-edit"></i>数据同步</a>*@
+                        @*</li>*@
+                        <li>
+                            <a href="/query "><i class="fa fa-fw fa-edit"></i>一致性</a>
+                        </li>
+                    </ul>
+                </div>
+                    <!-- /.navbar-collapse -->
+            </nav>
+
+            <div id="page-wrapper">
+
+                <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 class="page-header">
+                                @graySystem.name
+                            </h2>
+
+                        </div>
+                    </div>
+
+
+                        <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">新增灰度名单</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form"  action="/grayConfig/add"  method="post" >
+                                        <input type="hidden" id="systemId" name="systemId" value="@graySystem.id">
+                                        <div class="form-group">
+                                            <label>灰度主题</label>
+                                            <input id="key" name="key"  value="staffName" class="form-control" placeholder="staffName" disabled/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>灰度值</label>
+                                            <input id="value" name="value" value="" class="form-control" placeholder="请输入" required>
+                                        </div>
+                                        <button id="confFormSybmit" type="submit" class="btn btn-default" disabled>新增</button>
+                                        <button type="reset" class="btn btn-default">取消</button>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+                                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                            <!-- /.col-sm-4 -->
+                        <div class="col-sm-8">
+                            <div class="panel panel-green">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">服务信息</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="graySystemPanel" >
+                                       <h4>名称：@graySystem.name</h4>
+                                       <h4>子系统名：@graySystem.subSystemName</h4>
+                                       <h4>类型: @if(1 == graySystem.serverType) {WEB} else {OSS}</h4>
+                                       <h4>地址：@graySystem.entrance</h4>
+                                       <h4>描述：@graySystem.description</h4>
+                                       <h4>状态：@graySystem.status</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- /.row -->
+
+
+                    <div>
+                        <div class="col-lg-8">
+                            <h3>灰度名单 <button class="btn  navbar-right top-nav btn-success" data-toggle="modal" data-target="#myModal">新增</button>
+                                <button id="confDelete" class='btn navbar-right top-nav btn-warning btn-circle'>删除</button>
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="confs">
+                                    <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>key</th>
+                                            <th>value</th>
+                                            <th>updated_at</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for(grayConfig <- grayConfigs){
+                                            <tr>
+                                                <td>@grayConfig.id</td>
+                                                <td>@grayConfig.key</td>
+                                                <td>@grayConfig.value</td>
+                                                <td>@grayConfig.updatedAt</td>
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.row-->
+                </div>
+                    <!-- /.container-fluid -->
+
+            </div>
+                <!-- /#page-wrapper -->
+
+        </div>
+            <!-- /#wrapper -->
+
+
+
+
+
+            <!-- jQuery Version 1.11.0 -->
+        <script src="@routes.Assets.versioned("js/jquery-1.11.0.js")"></script>
+
+            <!-- Bootstrap Core JavaScript -->
+        <script src="@routes.Assets.versioned("js/bootstrap.min.js")"></script>
+
+            <!-- Custom Theme JavaScript -->
+        @*<script src="http://cdn.bootcss.com/angular.js/1.3.8/angular.min.js"></script>*@
+        @*<script*@
+        @*src="http://cdn.bootcss.com/angular.js/1.3.8/angular-cookies.min.js"></script>*@
+        @*<script*@
+        @*src="http://cdn.bootcss.com/angular.js/1.3.8/angular-route.min.js"></script>*@
+        @*<script*@
+        @*src="http://cdn.bootcss.com/angular.js/1.3.8//angular-resource.min.js"></script>*@
+
+            @*<!-- DataTables JavaScript -->*@
+        <script src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+        <script src="@routes.Assets.versioned("js/plugins/dataTables/dataTables.bootstrap.js")"></script>
+
+        @*<script src="@routes.Assets.versioned("js/controllers/lcontroller.js")"></script>*@
+        @*<script src="@routes.Assets.versioned("js/app.js")"></script>*@
+
+    </body>
+
+    <script>
+
+    $(document).ready(function() {
+            var table = $('#confs').dataTable();
+
+            $('#confs tbody').on('click', 'tr', function() {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+            $('#value' ).blur(function () {
+                    $("#confFormSybmit").attr({"disabled":"disabled"});
+            });
+            $('#value' ).blur(function () {
+                var key=$("#key").val();
+                var id = $("#systemId").val();
+                var value = encodeURI($("#value").val());
+                $.ajax({
+                    type : "post",
+                    url : "/grayConfig/verify/"+id+"/"+key+"/"+value,
+                    success : function(msg) {
+                            var obj = jQuery.parseJSON(msg);
+                            if(0== obj.result){
+                                $("#confFormSybmit").removeAttr("disabled");
+                            }else{
+                                alert("不可重复该灰度名单")
+                                $(this ).focus();
+                                $("#confFormSybmit").attr({"disabled":"disabled"});
+                            }
+                        }
+                    })
+            });
+            $('#confDelete').click(function() {
+                var trobj = table.$('tr.selected');
+                var currentIndex=$("li[class='paginate_button active']").children("a").text();
+                var currentDisplay=$("select[class='form-control input-sm']").val();
+                var indexOfRecord=(currentIndex-1)*currentDisplay+trobj.index();
+                var node= table.fnGetNodes(indexOfRecord);
+                var rowData = table.fnGetData(node);
+                 var a=confirm("删除该灰度名单吗？");
+                 if(a==true){
+                   $.ajax({
+                        type : "get",
+                        url : "/grayConfig/delete/"+rowData[0],
+                        success : function(msg) {
+                            var obj = jQuery.parseJSON(msg);
+                            if(0== obj.result){
+                                table.fnDeleteRow(indexOfRecord,false,true);
+                            }else{
+                                alert("系统繁忙")
+                            }
+                        }
+                    })
+                 }
+
+            });
+
+            $('#confDelete').click(function() {
+                var trobj = table.$('tr.selected');
+                var currentIndex=$("li[class='paginate_button active']").children("a").text();
+                var currentDisplay=$("select[class='form-control input-sm']").val();
+                var indexOfRecord=(currentIndex-1)*currentDisplay+trobj.index();
+                var node= table.fnGetNodes(indexOfRecord);
+                var rowData = table.fnGetData(node);
+                 var a=confirm("删除该灰度名单吗？");
+                 if(a==true){
+                   $.ajax({
+                        type : "get",
+                        url : "/grayConfig/delete/"+rowData[0],
+                        success : function(msg) {
+                            var obj = jQuery.parseJSON(msg);
+                            if(0== obj.result){
+                                table.fnDeleteRow(indexOfRecord,false,true);
+                            }else{
+                                alert("系统繁忙")
+                            }
+                        }
+                    })
+                 }
+
+            });
+
+
+//            $('#graySystemFormUpdate').click(function() {
+//                 $('#graySystemFormReal').on('submit', function() {
+//                    var graySystemId = $('input[name=graySystemId]').val(),
+//                     systemType = $('input[name=systemType]').val(),
+//                     graySystemName = $('input[name=graySystemName]').val(),
+//                     graySystemEntrance= $('input[name=graySystemEntrance]').val(),
+//                     graySystemDescription= $('input[name=graySystemDescription]').val();
+//                    $.ajax({
+//                        type: 'post', // 提交方式 get/post
+//                        url: '/graySystem/update', // 需要提交的 url
+//                        dataType : 'json',
+//                        data: {
+//                            'id': graySystemId,
+//                            'name': graySystemName,
+//                            'entrance': graySystemEntrance,
+//                            'description': graySystemDescription,
+//                            'systemType': systemType,
+//                        },
+//                        success: function(data) {
+//                            // 此处可对 data 作相关处理
+//                            alert('提交成功！');
+//                        }
+//                    });
+//                });
+//            });
+
+//            $('#edit').click(function() {
+//                $('#graySystemPanel').hide()
+//                $('#graySystemForm').show()
+//                $(this).hide();
+//                $("#cancel").show();
+//            });
+//
+//             $('#cancel').click(function() {
+//                $('#graySystemForm').hide()
+//                $('#graySystemPanel').show()
+//                $(this).hide();
+//                $("#edit").show();
+//            });
+
+
+    });
+    </script>
+
+</html>

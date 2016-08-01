@@ -23,7 +23,7 @@ CREATE TABLE `sub_systems` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL COMMENT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='灰度子系统';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='灰度配置表';
 
 -- ----------------------------
 -- Records of grey_configs

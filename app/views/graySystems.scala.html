@@ -1,5 +1,4 @@
-@()(graySystem:GrayServer, grayConfigs : Seq[models.GrayConfig])
-
+@()(systemId:Long, graySystems : Seq[models.GrayServer])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +17,6 @@
 
             <!-- Custom CSS -->
         <link href="@routes.Assets.versioned("css/sb-admin.css")" rel="stylesheet">
-        <link href="@routes.Assets.versioned("css/plugins/dataTables.bootstrap.css")" rel="stylesheet">
 
             <!-- Custom Fonts -->
         <link href="@routes.Assets.versioned("font-awesome-4.1.0/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
@@ -63,10 +61,11 @@
                         <li>
                             <a href="/"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
                         </li>
-                        <li @if(graySystem.serverType==1){class="active"}>
+
+                        <li @if(systemId==1){class="active"} >
                             <a href="/graySystem/conf/web"><i class="fa fa-fw fa-table"></i>WEB</a>
                         </li>
-                        <li @if(graySystem.serverType==2){class="active"}>
+                        <li @if(systemId==2){class="active"} >
                             <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
                         @*<li>*@
@@ -87,124 +86,58 @@
                         <!-- Page Heading -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <h2 class="page-header">
-                                @graySystem.name
-                            </h2>
+                            <h1 class="page-header">
 
+                               <small> @if(systemId==1){前端灰度}else{后端灰度}</small>
+                            </h1>
+                            @*<ol class="breadcrumb">*@
+                                @*<li class="active">*@
+                                    @*<i class="fa fa-dashboard"></i>功能概览*@
+                                @*</li>*@
+                            @*</ol>*@
                         </div>
                     </div>
-
-
-                        <!-- Modal -->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">新增灰度名单</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form"  action="/grayConfig/add"  method="post" >
-                                        <input type="hidden" id="systemId" name="systemId" value="@graySystem.id">
-                                        <div class="form-group">
-                                            <label>灰度主题</label>
-                                            <input id="key" name="key" value="staffName" class="form-control" placeholder="staffName" disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>灰度值</label>
-                                            <input id="value" name="value" value="" class="form-control" placeholder="请输入" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-default">新增</button>
-                                        <button type="reset" class="btn btn-default">取消</button>
-
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
 
                     <div class="row">
-                            <!-- /.col-sm-4 -->
-                        <div class="col-sm-8">
-                            <div class="panel panel-green">
+                            <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">服务信息
-                                        <button id="edit" class="btn  navbar-right top-nav btn-success" >编辑</button>
-                                        <button id="cancel" class="btn  navbar-right top-nav btn-success" style="display: none">取消</button>
-                                    </h3>
+                                    <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>概览</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <div id="graySystemPanel" >
-                                       <h4>名称：@graySystem.name</h4>
-                                        <h4>类型: @if(1 == graySystem.serverType) {WEB} else {OSS}</h4>
-                                       <h4>地址：@graySystem.entrance</h4>
-                                       <h4>描述：@graySystem.description</h4>
-                                    </div>
+                                        <!-- /.row -->
+                                    <div class="row">
+                                    @for(graySystem<-graySystems) {
 
-                                    <div id="graySystemForm" style="display: none">
-                                        @**@
-                                        <form role="form" id="graySystemFormReal" action="/graySystem/update/@graySystem.id"    method="post">
-                                            <input type="hidden" id="systemType" name="systemType" value="@graySystem.serverType">
-                                            <div class="form-group">
-                                                <label>名称</label>
-                                                <input id="name" name="name" value="@graySystem.name" class="form-control" placeholder="请输入">
+                                        <div class="col-lg-3 col-md-6">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <i class="fa fa-comments fa-5x"></i>
+                                                        </div>
+                                                        <div class="col-xs-9 text-right">
+                                                            <div class="huge">1</div>
+                                                            <div>@graySystem.name</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <a href="/graySystem/info/@graySystem.id">
+                                                    <div class="panel-footer">
+                                                        <span class="pull-left">@graySystem.description</span>
+                                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </a>
                                             </div>
-                                            <div class="form-group">
-                                                <label>地址</label>
-                                                <input id="entrance" name="entrance" value="@graySystem.description" class="form-control" placeholder="请输入">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>描述</label>
-                                                <input id="description" name="description" value="@graySystem.entrance" class="form-control" placeholder="请输入">
-                                            </div>
-                                            <button id="graySystemFormUpdate" type="submit" class="btn btn-default">更改</button>
-                                        </form>
+                                        </div>
+                                    }
                                     </div>
+                                        <!-- /.row -->
                                 </div>
                             </div>
-                        </div>
                     </div>
                         <!-- /.row -->
-
-
-                    <div>
-                        <div class="col-lg-8">
-                            <h3>灰度名单 <button class="btn  navbar-right top-nav btn-success" data-toggle="modal" data-target="#myModal">新增</button>
-                                <button id="confDelete" class='btn navbar-right top-nav btn-warning btn-circle'>删除</button>
-                            </h3>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover" id="confs">
-                                    <thead>
-                                        <tr>
-                                            <th>id</th>
-                                            <th>key</th>
-                                            <th>value</th>
-                                            <th>updated_at</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for(grayConfig <- grayConfigs){
-                                            <tr>
-                                                <td>@grayConfig.id</td>
-                                                <td>@grayConfig.key</td>
-                                                <td>@grayConfig.value</td>
-                                                <td>@grayConfig.updatedAt</td>
-                                            </tr>
-
-                                        }
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/.row-->
                 </div>
                     <!-- /.container-fluid -->
 
@@ -213,10 +146,6 @@
 
         </div>
             <!-- /#wrapper -->
-
-
-
-
 
             <!-- jQuery Version 1.11.0 -->
         <script src="@routes.Assets.versioned("js/jquery-1.11.0.js")"></script>
@@ -234,121 +163,17 @@
         @*src="http://cdn.bootcss.com/angular.js/1.3.8//angular-resource.min.js"></script>*@
 
             @*<!-- DataTables JavaScript -->*@
-        <script src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
-        <script src="@routes.Assets.versioned("js/plugins/dataTables/dataTables.bootstrap.js")"></script>
-
+        @*<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>*@
+        @*<!--customer js-->*@
+        @*<script src="@routes.Assets.versioned("js/plugins/dataTables/dataTables.bootstrap.js")"></script>*@
         @*<script src="@routes.Assets.versioned("js/controllers/lcontroller.js")"></script>*@
         @*<script src="@routes.Assets.versioned("js/app.js")"></script>*@
 
+            <!-- Morris Charts JavaScript -->
+        @*<script src="@routes.Assets.versioned("js/plugins/morris/raphael.min.js")"></script>*@
+        @*<script src="@routes.Assets.versioned("js/plugins/morris/morris.min.js")"></script>*@
+        @*<script src="@routes.Assets.versioned("js/plugins/morris/morris-data.js")"></script>*@
+
     </body>
-
-    <script>
-
-    $(document).ready(function() {
-            var table = $('#confs').dataTable();
-
-            $('#confs tbody').on('click', 'tr', function() {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                } else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-
-            $('#confDelete').click(function() {
-                var trobj = table.$('tr.selected');
-                var currentIndex=$("li[class='paginate_button active']").children("a").text();
-                var currentDisplay=$("select[class='form-control input-sm']").val();
-                var indexOfRecord=(currentIndex-1)*currentDisplay+trobj.index();
-                var node= table.fnGetNodes(indexOfRecord);
-                var rowData = table.fnGetData(node);
-                 var a=confirm("删除该灰度名单吗？");
-                 if(a==true){
-                   $.ajax({
-                        type : "get",
-                        url : "/grayConfig/delete/"+rowData[0],
-                        success : function(msg) {
-                            var obj = jQuery.parseJSON(msg);
-                            if(0== obj.result){
-                                table.fnDeleteRow(indexOfRecord,false,true);
-                            }else{
-                                alert("系统繁忙")
-                            }
-                        }
-                    })
-                 }
-
-            });
-
-            $('#confDelete').click(function() {
-                var trobj = table.$('tr.selected');
-                var currentIndex=$("li[class='paginate_button active']").children("a").text();
-                var currentDisplay=$("select[class='form-control input-sm']").val();
-                var indexOfRecord=(currentIndex-1)*currentDisplay+trobj.index();
-                var node= table.fnGetNodes(indexOfRecord);
-                var rowData = table.fnGetData(node);
-                 var a=confirm("删除该灰度名单吗？");
-                 if(a==true){
-                   $.ajax({
-                        type : "get",
-                        url : "/grayConfig/delete/"+rowData[0],
-                        success : function(msg) {
-                            var obj = jQuery.parseJSON(msg);
-                            if(0== obj.result){
-                                table.fnDeleteRow(indexOfRecord,false,true);
-                            }else{
-                                alert("系统繁忙")
-                            }
-                        }
-                    })
-                 }
-
-            });
-
-
-//            $('#graySystemFormUpdate').click(function() {
-//                 $('#graySystemFormReal').on('submit', function() {
-//                    var graySystemId = $('input[name=graySystemId]').val(),
-//                     systemType = $('input[name=systemType]').val(),
-//                     graySystemName = $('input[name=graySystemName]').val(),
-//                     graySystemEntrance= $('input[name=graySystemEntrance]').val(),
-//                     graySystemDescription= $('input[name=graySystemDescription]').val();
-//                    $.ajax({
-//                        type: 'post', // 提交方式 get/post
-//                        url: '/graySystem/update', // 需要提交的 url
-//                        dataType : 'json',
-//                        data: {
-//                            'id': graySystemId,
-//                            'name': graySystemName,
-//                            'entrance': graySystemEntrance,
-//                            'description': graySystemDescription,
-//                            'systemType': systemType,
-//                        },
-//                        success: function(data) {
-//                            // 此处可对 data 作相关处理
-//                            alert('提交成功！');
-//                        }
-//                    });
-//                });
-//            });
-
-            $('#edit').click(function() {
-                $('#graySystemPanel').hide()
-                $('#graySystemForm').show()
-                $(this).hide();
-                $("#cancel").show();
-            });
-
-             $('#cancel').click(function() {
-                $('#graySystemForm').hide()
-                $('#graySystemPanel').show()
-                $(this).hide();
-                $("#edit").show();
-            });
-
-
-    });
-    </script>
 
 </html>
