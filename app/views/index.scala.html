@@ -103,8 +103,8 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;概览
-                                        <button id="add" class="btn  navbar-right top-nav btn-default" data-toggle="modal" data-target="#myModal">新增</button>
-                                        <button id="update" class='btn navbar-right top-nav btn-default' disabled>编辑</button>
+                                        <button id="add" class="btn  navbar-right top-nav btn-default" data-toggle="modal" data-target="#grayServerModal">新增</button>
+                                        <button id="update" class='btn navbar-right top-nav btn-default' data-toggle="modal" data-target="#grayServerModal" disabled>编辑</button>
                                         <button id="delete" class='btn navbar-right top-nav btn-default' disabled>删除</button>
                                         <button id="status" class='btn navbar-right top-nav btn-default' disabled>启用</button>
                                     </h3>
@@ -150,15 +150,15 @@
                             </div>
                     </div>
 
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                    <div class="modal fade" id="grayServerModal" tabindex="-1" role="dialog" aria-labelledby="grayServerModalLabel" aria-hidden="true" >
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">新增灰度系统</h4>
+                                    <h4 class="modal-title" id="grayServerModalLabel">新增灰度系统</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form role="form"  action="/graySystem/add"  method="post" >
+                                    <form role="form" name="grayForm" action="/graySystem/add"  method="post" >
                                         <div class="form-group">
                                             <label>系统名称</label>
                                             <input id="name" name="name" value="name" class="form-control" placeholder="请输入">
@@ -254,6 +254,35 @@
 </html>
 <script>
    $(document).ready(function() {
+             $('#update').click(function() {
+                 var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
+                 var serverId = opDiv.attr('id');
+
+                 var grayServerName = $("input[name='name']").val();
+                 var grayServerType = $("input[name='serverType']").val();
+                 var status = $("input[name='status']").val();
+                 var subSystemId = $("select[name='subSystemId']").val();
+                 var description = $("input[name='description']").val();
+                 var entrance= $("input[name='entrance']").val();
+                 var formAction= $("form[name='grayForm']").attr('action');
+
+                 $.ajax({
+                    type : "post",
+                    url : "/graySystem/"+serverId,
+                    success : function(msg) {
+                        console.log("msg"+msg)
+                    }
+                });
+
+//                 alert("grayServerName: "+ grayServerName);
+//                 alert("grayServerType: "+ grayServerType);
+//                 alert("status: "+ status);
+//                 alert("subSystemId: "+ subSystemId);
+//                 alert("description: "+ description);
+//                 alert("entrance: "+ entrance);
+//                 alert("form action: "+ formAction);
+
+            });
 
              $('#status').click(function() {
                  var opDiv = $('.panel-body .panel-heading.selected').parent().parent('.col-lg-3')
@@ -321,6 +350,7 @@
                  }
                 }
             });
+
 
    });
 </script>
