@@ -44,7 +44,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystems.render(0,Seq.empty[models.GrayServer]))),
       data => {
-        val newGraySystem = models.GrayServer(0, data.name, data.description, data.entrance,data.serverType,data.subSystemId,0)
+        val newGraySystem = models.GrayServer(0, data.name, data.description, data.entrance,data.serverType,data.subSystemId,data.status)
         graySystem.addGraySystem(newGraySystem).map(res =>
           Redirect("/")
         )
@@ -64,7 +64,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystems.render(0,Seq.empty[models.GrayServer]))),
       data => {
-        val newGraySystem = models.GrayServer(id, data.name, data.description, data.entrance,data.serverType,data.subSystemId,0)
+        val newGraySystem = models.GrayServer(id, data.name, data.description, data.entrance,data.serverType,data.subSystemId,data.status)
         graySystem.updateGraySystem(newGraySystem).map(res =>
           Redirect("/graySystem")
         )

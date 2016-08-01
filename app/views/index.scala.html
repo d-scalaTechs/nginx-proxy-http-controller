@@ -104,6 +104,7 @@
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;概览
                                         <button id="add" class="btn  navbar-right top-nav btn-default" data-toggle="modal" data-target="#myModal">新增</button>
+                                        <button id="update" class='btn navbar-right top-nav btn-default' disabled>编辑</button>
                                         <button id="delete" class='btn navbar-right top-nav btn-default' disabled>删除</button>
                                         <button id="status" class='btn navbar-right top-nav btn-default' disabled>启用</button>
                                     </h3>
@@ -125,6 +126,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @*<div class="hidden" id="server_@grayServer.id">*@
+                                                            @*<input name="name" value="@grayServer.name"/>*@
+                                                            @*<input name="serverType" value="@grayServer.serverType"/>*@
+                                                            @*<input name="status" value="@grayServer.status"/>*@
+                                                            @*<input name="subSystemId" value="@grayServer.subSystemId"/>*@
+                                                            @*<input name="desc" value="@grayServer.description"/>*@
+                                                            @*<input name="entrance" value="@grayServer.entrance"/>*@
+                                                        @*</div>*@
                                                         <a href="/graySystem/info/@grayServer.id">
                                                             <div class="panel-footer">
                                                                 <span class="pull-left">@grayServer.description</span>
@@ -167,12 +176,13 @@
 
                                         <div class="form-group">
                                             <label>状态</label>
-                                                <label  class="radio-inline">
-                                                    <input type="radio" name="status" id="status1" value="1" checked>启用
-                                                </label>
-                                                <label  class="radio-inline">
-                                                    <input type="radio" name="status" id="status2" value="0">禁用
-                                                </label>
+                                            <label  class="radio-inline">
+                                                <input type="radio" name="status" id="status2" value="0" checked>禁用
+                                            </label>
+                                            <label  class="radio-inline">
+                                                <input type="radio" name="status" id="status1" value="1" >启用
+                                            </label>
+
                                         </div>
                                         <div class="form-group">
                                             <label>子系统名称</label>
@@ -275,11 +285,13 @@
              $('.panel-body .panel-heading').click(function() {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
+                    $('#update').attr({"disabled":"disabled"});
                     $('#delete').attr({"disabled":"disabled"});
                     $('#status').attr({"disabled":"disabled"});
                 } else {
                     $('.panel-body .panel-heading.selected').removeClass('selected');
                     $(this).addClass('selected');
+                    $('#update').removeAttr("disabled");
                     $('#delete').removeAttr("disabled");
                     $('#status').removeAttr("disabled");
 
