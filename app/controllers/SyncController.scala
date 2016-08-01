@@ -6,7 +6,7 @@ import daos.NativeDao
 import play.api.libs.json.Json
 import play.api.mvc._
 import redis.clients.jedis.Jedis
-import services.{GrayServerService, SubSystemsService}
+import services.{GrayServerService, SubSystemService}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,7 +17,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 @Singleton
 class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServerService,
-                               subSystemsService:SubSystemsService) extends Controller {
+                               subSystemsService:SubSystemService) extends Controller {
 
   def page = Action.async { implicit request =>
     subSystemsService.listAll map { subSystems =>
