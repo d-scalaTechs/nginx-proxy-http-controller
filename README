@@ -1,49 +1,19 @@
-This is your new Play application
-=================================
+管理页面原型
 
-This file will be packaged with your application when using `activator dist`.
+   主页面分类显示所有灰度系统（或者用颜色区分oss/web？）
+   1. 点击添加按钮，可以进入灰度服务编辑子页面，输入灰度服务信息，并保存，跳回主页面。
+   2. 点击某个灰度服务，进入灰度服务详情页面，页面上方显示灰度服务信息，下方是灰度名单
+   3. 点击灰度服务信息，进入灰度服务编辑子页面，保存则跳回上一个页面
+   4. 点击删除按钮，可以删除该灰度
+   5. 点击灰度名单中的某一项，弹出提示框，可以选择删除该灰度人员
+   6. 点击灰度名单后的添加按钮，可以添加灰度人员
 
-There are several demonstration files available in this template.
+技术组成:
 
-Controllers
-===========
-
-- HomeController.scala:
-
-  Shows how to handle simple HTTP requests.
-
-- AsyncController.scala:
-
-  Shows how to do asynchronous programming when handling a request.
-
-- CountController.scala:
-
-  Shows how to inject a component into a controller and use the component when
-  handling requests.
-
-Components
-==========
-
-- Module.scala:
-
-  Shows how to use Guice to bind all the components needed by your application.
-
-- Counter.scala:
-
-  An example of a component that contains state, in this case a simple counter.
-
-- ApplicationTimer.scala:
-
-  An example of a component that starts when the application starts and stops
-  when the application stops.
-
-Filters
-=======
-
-- Filters.scala:
-
-  Creates the list of HTTP filters used by your application.
-
-- ExampleFilter.scala
-
-  A simple filter that adds a header to every response.
+1. playframwork 路由
+2. slick2.0  orm
+3. jdbc      数据库操作
+4. Bootstrap  页面
+5. Jquery ajax
+6. mysql 数据存储
+7. redis 数据映射
