@@ -23,7 +23,7 @@ class NativeDao @Inject()(db: Database) {
       val description= rs.getString("description")
       val entrance= rs.getString("entrance")
       val server_type= rs.getInt("serverType")
-      val status = if(rs.getInt("id")==1) "启动" else{"禁用"}
+      val status = if(rs.getInt("status")==1) "启动" else{"禁用"}
       val subSystemName= rs.getString("subSystemName")
       new GrayServerDto(serverId,name,description,entrance,server_type,subSystemName,status)
     } finally {
