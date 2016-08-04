@@ -82,4 +82,15 @@ class NativeDao @Inject()(db: Database) {
       conn.close()
     }
   }
+
+
+  def deleteRelativeConfs(id:Long)={
+    val conn = db.getConnection()
+    try {
+      val stmt = conn.createStatement
+      stmt.execute(s"delete from grey_configs where server_id =${id}")
+    } finally {
+      conn.close()
+    }
+  }
 }

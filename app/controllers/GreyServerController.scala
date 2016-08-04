@@ -52,6 +52,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
 
   def deleteGraySystem(id: Long) = Action.async { implicit request =>
     graySystem.deleteGraySystem(id) map { res =>
+      nativeDao.deleteRelativeConfs(id);
       Redirect("/")
     }
   }
