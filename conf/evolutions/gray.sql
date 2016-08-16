@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
 Navicat MySQL Data Transfer
 
@@ -176,4 +175,3 @@ INSERT INTO `sub_systems` VALUES ('3', 'admin');
 INSERT INTO `sub_systems` VALUES ('4', 'www');
 INSERT INTO `sub_systems` VALUES ('5', 'pai');
 INSERT INTO `sub_systems` VALUES ('6', 'etrade');
->>>>>>> a76a72dcc182bedec7217325526e8402ad30987d
