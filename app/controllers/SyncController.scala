@@ -3,6 +3,7 @@ package controllers
 import javax.inject._
 
 import daos.NativeDao
+import play.api.Configuration
 import play.api.libs.json.Json
 import play.api.mvc._
 import redis.clients.jedis.Jedis
@@ -17,7 +18,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 @Singleton
 class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServerService,
-                               subSystemsService:SubSystemService) extends Controller {
+                               subSystemsService:SubSystemService, configuration:Configuration) extends Controller {
 
   def page = Action.async { implicit request =>
     subSystemsService.listAll map { subSystems =>
@@ -27,9 +28,7 @@ class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServer
 
   def sync()= Action.async { implicit request =>
     grayServerService.buildRedisKeyAndValue map(keys=>{
-      //val jedis = new Jedis("10.168.13.96", 6379);
-      val jedis = new Jedis("127.0.0.1", 6379)
-
+      val jedis = new Jedis(configuration.getString("redis.url").get, configuration.getInt("redis.port").get)
       val keysSaved = jedis.keys("gray.*")
       val it= keysSaved.iterator()
       while (it.hasNext){
@@ -49,15 +48,13 @@ class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServer
   def verifyRedis(subSystemId:Long,value:String)= Action.async { implicit request =>
       subSystemsService.getSubSystemName(subSystemId)  map { subSystemName =>
         val redisList = ListBuffer[String]()
-        //val jedis = new Jedis("10.168.13.96", 6379);
-        val jedis = new Jedis("127.0.0.1", 6379);
+        val jedis = new Jedis(configuration.getString("redis.url").get, configuration.getInt("redis.port").get)
         val keyPattern="gray." + subSystemName.get.name + ".*." + value
         println("keyPattern: "+keyPattern)
         val keysSaved = jedis.keys(keyPattern)
         val it = keysSaved.iterator()
         while (it.hasNext) {
           val key = it.next()
-          println("key: " + key)
           redisList.append(key+" -> "+jedis.get(key)+"\n")
         }
         jedis.close()

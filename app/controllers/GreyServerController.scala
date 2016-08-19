@@ -32,7 +32,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
 
   def detail(id: Long) = Action.async{ implicit request =>
        val newGraySystem = nativeDao.getGrayServer(id)
-     graySystem.getGraySystemDetail(id) map {systemInfo=>
+       graySystem.getGraySystemDetail(id) map {systemInfo=>
          Ok(views.html.grayServerConfigs.render(newGraySystem,systemInfo))
        }
   }
@@ -58,9 +58,6 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
   }
 
   def updateGraySystem(id:Int) = Action.async { implicit request =>
-//    val json = request.body.asJson
-//    println("json: " + json)
-//    Future.successful(Ok("{\"result\":0}"))
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystems.render(0,Seq.empty[models.GrayServer]))),
       data => {
@@ -78,8 +75,8 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
      }
   }
 
-  import play.api.libs.json.Json
   import models.JsonWriteImplicit._
+  import play.api.libs.json.Json
 
   def getGraySystem(id: Long) =  Action.async{ implicit request =>
     graySystem.getGraySystem(id) map(res=>

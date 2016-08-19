@@ -7,6 +7,7 @@ import play.api.mvc._
 import services.GrayServerService
 
 import scala.concurrent.ExecutionContext.Implicits.global
+
 /**
  *
  * @author Eric on 2016/7/21 15:55
