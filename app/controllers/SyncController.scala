@@ -3,7 +3,7 @@ package controllers
 import javax.inject._
 
 import daos.NativeDao
-import play.api.Configuration
+import play.api.{Logger, Configuration}
 import play.api.libs.json.Json
 import play.api.mvc._
 import redis.clients.jedis.Jedis
@@ -34,11 +34,13 @@ class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServer
       while (it.hasNext){
         val keyToDelete = it.next()
         jedis.del(keyToDelete)
+        Logger.info("redis key del: " + keyToDelete)
       }
+
       for (key<-keys){
         val redisKey  = "gray."+key._1+"."+key._2+"."+key._3
         val redisValue = key._4
-        println("redis key: " + redisKey +"  -->  redis value: " + redisValue)
+        Logger.info("redis key: " + redisKey +"  -->  redis value: " + redisValue)
         jedis.set(redisKey,redisValue)
       }
       Ok("{\"result\":0}")
@@ -50,7 +52,7 @@ class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServer
         val redisList = ListBuffer[String]()
         val jedis = new Jedis(configuration.getString("redis.url").get, configuration.getInt("redis.port").get)
         val keyPattern="gray." + subSystemName.get.name + ".*." + value
-        println("keyPattern: "+keyPattern)
+        Logger.info("keyPattern: "+keyPattern)
         val keysSaved = jedis.keys(keyPattern)
         val it = keysSaved.iterator()
         while (it.hasNext) {
