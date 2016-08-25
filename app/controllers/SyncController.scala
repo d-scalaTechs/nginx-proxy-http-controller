@@ -29,6 +29,8 @@ class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServer
   def sync()= Action.async { implicit request =>
     grayServerService.buildRedisKeyAndValue map(keys=>{
       val jedis = new Jedis(configuration.getString("redis.url").get, configuration.getInt("redis.port").get)
+      Logger.info("redis.url: "+configuration.getString("redis.url").get)
+      Logger.info("redis.port: "+configuration.getInt("redis.port").get)
       val keysSaved = jedis.keys("gray.*")
       val it= keysSaved.iterator()
       while (it.hasNext){

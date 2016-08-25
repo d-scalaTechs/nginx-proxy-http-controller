@@ -13,6 +13,8 @@ File Encoding         : 65001
 Date: 2016-08-01 14:02:10
 */
 
+use gray;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -86,7 +88,7 @@ INSERT INTO `sub_systems` VALUES ('3', 'admin');
 INSERT INTO `sub_systems` VALUES ('4', 'www');
 INSERT INTO `sub_systems` VALUES ('5', 'pai');
 INSERT INTO `sub_systems` VALUES ('6', 'etrade');
-=======
+
 /*
 Navicat MySQL Data Transfer
 
