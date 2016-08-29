@@ -1,25 +1,30 @@
 package controllers
 import java.util.UUID
+import javax.inject.Singleton
 
-import play.api._
-import util.OAuth2
-import play.api.mvc.{Action, Controller}
+import play.api.mvc._
+import slick.collection.heterogeneous.Zero.+
+
 
 /**
  *
- * @author Shadow 
- * @date 2016/8/26 20:44
+ * @author Eric  2016/8/26 20:44
  */
-object  LoginController  extends Controller {
+@Singleton
+class  LoginController  extends Controller {
 
   def index = Action { implicit request =>
-    val oauth2 = new OAuth2(Play.current)
-    val callbackUrl = util.routes.OAuth2.callback(None, None).absoluteURL()
-    val scope = "repo"   // github scope - request repo access
-    val state = UUID.randomUUID().toString  // random confirmation string
-    val redirectUrl = oauth2.getAuthorizationUrl(callbackUrl, scope, state)
-      Ok(views.html.index("Your new application is ready.", redirectUrl)).
-        withSession("oauth-state" -> state)
+    val state = UUID.randomUUID().toString()
+    val fullUri = new StringBuffer()
+    fullUri.append("http://oauth.kuaisuwang.com/oauth/authorize")
+      .append("?")
+      .append("response_type=code&scope=read write")
+      .append("&client_id=gray-client")
+      .append("&redirect_uri=").append("http://gray.xxxxx.com/oauth_code_callback").append("")
+      .append("&state=").append(state)
+
+       println("fullUril:  "+ fullUri)
+       Redirect(fullUri.toString).withSession("oauth-state" -> state)
     }
 
 }

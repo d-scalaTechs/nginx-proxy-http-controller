@@ -10,18 +10,18 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class OAuth2(application: Application) {
-  lazy val githubAuthId = application.configuration.getString("github.client.id").get
-  lazy val githubAuthSecret = application.configuration.getString("github.client.secret").get
+  lazy val authId = application.configuration.getString("OAUTH_CLIENT_ID").get
+  lazy val authSecret = application.configuration.getString("OAUTH_CLIENT_SECRET").get
 
   def getAuthorizationUrl(redirectUri: String, scope: String, state: String): String = {
-    val baseUrl = application.configuration.getString("github.redirect.url").get
-    baseUrl.format(githubAuthId, redirectUri, scope, state)
+    val baseUrl = application.configuration.getString("OAUTH.REDIRECT.URL").get
+    baseUrl.format(authId, redirectUri, scope, state)
   }
 
   def getToken(code: String): Future[String] = {
     val tokenResponse = WS.url("https://github.com/login/oauth/access_token")(application).
-      withQueryString("client_id" -> githubAuthId,
-        "client_secret" -> githubAuthSecret,
+      withQueryString("client_id" -> authId,
+        "client_secret" -> authSecret,
         "code" -> code).
       withHeaders(HeaderNames.ACCEPT -> MimeTypes.JSON).
       post(Results.EmptyContent())
@@ -44,8 +44,8 @@ object OAuth2 extends Controller {
       oauthState <- request.session.get("oauth-state")
     } yield {
         if (state == oauthState) {
-          oauth2.getToken(code).map { accessToken =>
-            Redirect(util.routes.OAuth2.success()).withSession("oauth-token" -> accessToken)
+            oauth2.getToken(code).map { accessToken =>
+            Redirect("").withSession("oauth-token" -> accessToken)
           }.recover {
             case ex: IllegalStateException => Unauthorized(ex.getMessage)
           }
