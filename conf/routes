@@ -3,9 +3,11 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET         /                                                                controllers.LoginController.index
-GET        /oauth_code_callback       controllers.OAuth2Controller.callback(code: Option[String], state: Option[String])
-GET        /oauth-success            controllers.OAuth2Controller.success
+GET         /                                                                controllers.LoginController.login
+GET         /logout                                                          controllers.LoginController.logout
+
+GET        /oauth_code_callback                                              controllers.OAuth2Controller.callback(code: Option[String], state: Option[String])
+GET        /oauth-success                                                    controllers.OAuth2Controller.success
 
 GET         /home                                                            controllers.HomeController.index
 # An example controller showing how to use dependency injection

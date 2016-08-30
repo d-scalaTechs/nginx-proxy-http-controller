@@ -1,8 +1,8 @@
 package controllers
 import java.util.UUID
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
-import play.api.Logger
+import play.api.{Configuration, Logger}
 import play.api.mvc._
 
 
@@ -11,20 +11,22 @@ import play.api.mvc._
  * @author Eric  2016/8/26 20:44
  */
 @Singleton
-class  LoginController  extends Controller {
+class  LoginController@Inject()(configuration:Configuration)  extends Controller {
 
-  def index = Action { implicit request =>
+  def login = Action { implicit request =>
     val state = UUID.randomUUID().toString()
     val fullUri = new StringBuffer()
-    fullUri.append("http://oauth.kuaisuwang.com/oauth/authorize")
+    fullUri.append(configuration.getString("OAUTH_URL").get).append("/oauth/authorize")
       .append("?")
       .append("response_type=code&scope=read write")
-      .append("&client_id=gray-client")
-      .append("&redirect_uri=").append("http://gray.xxxxx.com/oauth_code_callback").append("")
+      .append("&client_id=").append(configuration.getString("OAUTH_CLIENT_ID").get)
+      .append("&redirect_uri=").append(configuration.getString("OAUTH_REDIRECT_URL").get)
       .append("&state=").append(state)
-
-       Logger.info(s"fullUril: ${fullUri}" )
+       Logger("login redirect url:  "+ fullUri)
        Redirect(fullUri.toString).withSession("oauth-state" -> state)
     }
 
+  def logout = Action { implicit request =>
+    Redirect(configuration.getString("OAUTH_URL").get+"/logout.do")
+  }
 }
