@@ -42,10 +42,9 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
     GraySystemForm.form.bindFromRequest.fold(
       errorForm => Future.successful(Ok(views.html.graySystems.render(0,Seq.empty[models.GrayServer]))),
       data => {
-        println("data: " + data)
         val newGraySystem = models.GrayServer(0, data.name, data.description, data.entrance,data.serverType,data.subSystemId,data.status)
         graySystem.addGraySystem(newGraySystem).map(res =>
-          Redirect("/")
+          Redirect("/home")
         )
       })
   }
@@ -53,7 +52,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
   def deleteGraySystem(id: Long) = Action.async { implicit request =>
     graySystem.deleteGraySystem(id) map { res =>
       nativeDao.deleteRelativeConfs(id);
-      Redirect("/")
+      Redirect("/home")
     }
   }
 
@@ -63,7 +62,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
       data => {
         val newGraySystem = models.GrayServer(id, data.name, data.description, data.entrance,data.serverType,data.subSystemId,data.status)
         graySystem.updateGraySystem(newGraySystem).map(res =>
-          Redirect("/")
+          Redirect("/home")
         )
       })
 
@@ -71,7 +70,7 @@ class GreyServerController@Inject()(graySystem: GrayServerService,nativeDao:Nati
 
    def updateGrayServerStatus(id: Long,status:Int) = Action.async { implicit request =>
      graySystem.updateGrayServerStatus(id,status) map { res =>
-       Redirect("/")
+       Redirect("/home")
      }
   }
 
