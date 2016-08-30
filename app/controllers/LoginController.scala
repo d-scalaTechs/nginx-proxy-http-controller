@@ -2,8 +2,8 @@ package controllers
 import java.util.UUID
 import javax.inject.Singleton
 
+import play.api.Logger
 import play.api.mvc._
-import slick.collection.heterogeneous.Zero.+
 
 
 /**
@@ -23,7 +23,7 @@ class  LoginController  extends Controller {
       .append("&redirect_uri=").append("http://gray.xxxxx.com/oauth_code_callback").append("")
       .append("&state=").append(state)
 
-       println("fullUril:  "+ fullUri)
+       Logger.info(s"fullUril: ${fullUri}" )
        Redirect(fullUri.toString).withSession("oauth-state" -> state)
     }
 

@@ -4,10 +4,9 @@ package controllers
 import javax.inject._
 
 import play.api.mvc._
-import play.api.{Configuration}
+import play.api.{Configuration, Logger}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import play.api.http.{HeaderNames, MimeTypes}
 import play.api.libs.ws._
 
 import scala.concurrent.Future
@@ -31,19 +30,17 @@ class OAuth2Controller @Inject()(configuration:Configuration,ws:WSClient ) exten
 
     val futureResult: Future[String] = tokenResponse.map {
       response =>
-        println((response.json \ "access_token").as[String])
-        println((response.json \ "token_type").as[String])
-        println((response.json \ "refresh_token").as[String])
-         println(((response.json \ "expires_in")).as[Int])
-        println(((response.json \ "scope").as[String]))
+        Logger.info((response.json \ "access_token").as[String])
+        Logger.info((response.json \ "token_type").as[String])
+        Logger.info((response.json \ "refresh_token").as[String])
+        Logger.info(((response.json \ "expires_in")).as[Int] + "")
+        Logger.info(((response.json \ "scope").as[String]))
         (response.json \ "access_token").as[String]
     }
     futureResult
   }
 
   def callback(codeOpt: Option[String] = None, stateOpt: Option[String] = None) = Action.async { implicit request =>
-    println(codeOpt)
-    println(stateOpt)
     (for {
       code <- codeOpt
       state <- stateOpt
@@ -51,7 +48,6 @@ class OAuth2Controller @Inject()(configuration:Configuration,ws:WSClient ) exten
     } yield {
       if (state == oauthState) {
           getToken(code).map { accessToken =>
-//          Redirect("").withSession("oauth-token" -> accessToken)
             Redirect("/home")
         }.recover {
           case ex: IllegalStateException => Unauthorized(ex.getMessage)
@@ -61,7 +57,6 @@ class OAuth2Controller @Inject()(configuration:Configuration,ws:WSClient ) exten
         Future.successful(BadRequest("Invalid login"))
       }
     }).getOrElse(Future.successful(BadRequest("No parameters supplied")))
-//    Future.successful(BadRequest("Invalid github login"))
   }
   def success() = Action.async { request =>
     Future.successful(Redirect("/home"))
