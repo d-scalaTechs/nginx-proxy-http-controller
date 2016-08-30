@@ -16,11 +16,11 @@ import scala.concurrent.Future
 class OAuth2Controller @Inject()(configuration:Configuration,ws:WSClient ) extends Controller {
 
   def getToken(code: String): Future[String] = {
-    val accessTokenUri = "http://oauth.kuaisuwang.com/oauth/token"
+    val accessTokenUri = configuration.getString("OAUTH_URL").get+"/oauth/token"
     val authId = configuration.getString("OAUTH_CLIENT_ID").get
     val authSecret = configuration.getString("OAUTH_CLIENT_SECRET").get
+    val redirectUri = configuration.getString("OAUTH_REDIRECT_URL").get
 
-    val redirectUri = "http://gray.xxxxx.com/oauth_code_callback"
       val tokenResponse =  ws.url(accessTokenUri).withQueryString("code"-> code)
                       .withQueryString( "grant_type"->"authorization_code")
                       .withQueryString( "client_secret"->authSecret)
