@@ -17,6 +17,7 @@
 
             <!-- Custom CSS -->
         <link href="@routes.Assets.versioned("css/sb-admin.css")" rel="stylesheet">
+        <link href="@routes.Assets.versioned("css/main.css")" rel="stylesheet">
 
             <!-- Custom Fonts -->
         <link href="@routes.Assets.versioned("font-awesome-4.1.0/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
@@ -114,7 +115,7 @@
                                     <div class="row" id="graySystems">
                                         @for(grayServer<-grayServers){
                                                 <div class="col-lg-3 col-md-6"  id="@grayServer.id"  name="@grayServer.status">
-                                                    <div class="panel panel-primary">
+                                                    <div class="panel @if(grayServer.status==0){panel-disable}else{panel-primary}">
                                                         <div class="panel-heading">
                                                             <div class="row">
                                                                 <div class="col-xs-3">
@@ -331,6 +332,7 @@
                            $('.panel-body .panel-heading.selected').removeClass('selected');
                            $('#delete').attr({"disabled":"disabled"});
                            $('#status').attr({"disabled":"disabled"});
+                            window.location.reload()
                         }
                     })
                  }

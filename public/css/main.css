@@ -1,0 +1,18 @@
+.panel-disable {
+    border-color: #AAAAAA;
+}
+.panel-disable > .panel-heading {
+    color: #fff;
+    background-color: #AAAAAA;
+    border-color: #AAAAAA;
+}
+.panel-disable > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #DDDDDD;
+}
+.panel-disable > .panel-heading .badge {
+    color: #428bca;
+    background-color: #DDDDDD;
+}
+.panel-disable > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #DDDDDD;
+}
