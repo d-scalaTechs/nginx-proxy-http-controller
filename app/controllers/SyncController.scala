@@ -40,7 +40,7 @@ class SyncController @Inject()(nativeDao:NativeDao,grayServerService: GrayServer
       }
 
       for (key<-keys){
-        val redisKey  = "gray."+key._1+"."+key._2+"."+key._3
+        val redisKey  = "gray."+key._1+"."+key._2+"."+key._3.toUpperCase()
         val redisValue = key._4
         Logger.info("redis key: " + redisKey +"  -->  redis value: " + redisValue)
         jedis.set(redisKey,redisValue)
