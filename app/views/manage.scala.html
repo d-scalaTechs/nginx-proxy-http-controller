@@ -1,0 +1,256 @@
+@()(agentUri:String,agentPort : String)
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>快塑网SOA管理站点</title>
+            <!-- Bootstrap Core CSS -->
+        <link href="@routes.Assets.versioned("css/bootstrap.min.css")" rel="stylesheet">
+            <!-- Custom CSS -->
+        <link href="@routes.Assets.versioned("css/sb-admin.css")" rel="stylesheet">
+        <!-- Custom Fonts -->
+        <link href="@routes.Assets.versioned("font-awesome-4.1.0/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
+            <!-- Morris Charts CSS -->
+            @*<link href="@routes.Assets.versioned("css/plugins/morris.css")" rel="stylesheet">*@
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+
+    </head>
+    <body>
+        <div id="wrapper">
+                <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">快塑网灰度管理平台</a>
+                </div>
+                    <!-- Top Menu Items -->
+                <ul class="nav navbar-right top-nav">
+                    <a class="navbar-brand" href="/logout">登出</a>
+                </ul>
+                    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav side-nav">
+                        <li>
+                            <a href="/home"><i class="fa fa-fw fa-dashboard"></i> 概览</a>
+                        </li>
+                        <li>
+                            <a href="/graySystem/conf/web"><i class="fa fa-fw fa-table"></i>WEB</a>
+                        </li>
+                        <li>
+                            <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
+                        </li>
+                        <li>
+                            <a href="/query "><i class="fa fa-fw fa-edit"></i>一致性</a>
+                        </li>
+                        <li  class="active">
+                            <a href="/server/index "><i class="fa fa-fw fa-edit"></i>服务管理</a>
+                        </li>
+                    </ul>
+                </div>
+                    <!-- /.navbar-collapse -->
+            </nav>
+
+            <div id="page-wrapper">
+
+                <div class="container-fluid">
+                        <!-- Page Heading -->
+                    <div class="row" div="shellWindow" v-bind:style="{display:toShow}">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">
+                                服务结点 <small>列表</small>
+                            </h1>
+                        </div>
+
+                        <div class="panel panel-default" style="height:200px;overflow:auto; position: relative;">
+                            <div class="panel-body" id="cmdResult">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" id="modals">
+                                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i>&nbsp;概览
+                                    <button id="image" class="btn  navbar-right top-nav btn-default" data-toggle="modal" data-target="#imagesModal" v-on:click="images()">鏡像列表</button>
+                                    <button id="branch" class="btn  navbar-right top-nav btn-default" data-toggle="modal" data-target="#buildModal" v-on:click="changeTag('构建')">构建</button>
+                                    <button id="rollBack" class='btn navbar-right top-nav btn-default' data-toggle="modal" data-target="#buildModal"  v-on:click="changeTag('回滚')" disabled>回滚</button>
+                                    <button id="deploy" class='btn navbar-right top-nav btn-default' data-toggle="modal" data-target="#buildModal"  v-on:click="changeTag('发布')" disabled>发布</button>
+                                </h3>
+
+                                <div class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="grayServerModalLabel" aria-hidden="true" id="buildModal" >
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                <h4 class="modal-title" id="grayServerModalLabel">镜像{{lableTag}}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" name="buildForm" id="buildForm">
+                                                    <div class="form-group">
+                                                        <label>分支</label>
+                                                        <select class="form-control" v-model="branchName" id="branches">
+                                                            <option v-bind:value="option" selected >--请选择--</option>
+                                                            <option v-for="option in options" v-bind:value="option">
+                                                                {{ option }}
+                                                            </option>
+                                                        </select>
+                                                        @*<input id="subSystem" name="subSystem" value="subSystem1" class="form-control" placeholder="请输入">*@
+                                                    </div>
+                                                    <a class="btn btn-default" id="build" v-on:click="imageOpera()">{{lableTag}}</a>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="grayServerModalLabel" aria-hidden="true" id="imagesModal" >
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                <h4 class="modal-title" id="imageModalLabel">镜像列表</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-hover" id="imageDetail">
+                                                       <thead>
+                                                            <tr>
+                                                                <th>REPOSITORY &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                                                                <th>TAG&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                                                                <th>CREATED&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr  v-for="image in images" id="{{ image.rep }}"  name="{{ image.tag }}">
+                                                                <td>{{ image.rep }}</td>
+                                                                <td>{{ image.tag }}</td>
+                                                                <td>{{ image.created }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!-- /.row -->
+                            </div>
+
+                            <div class="panel-body">
+                                    <!-- /.row -->
+                                <div class="row" id="deployServers">
+                                    <div class="col-lg-3 col-md-6"   v-for="node in nodes" id="{{ node.ip }}"  name="{{ node.sessionId }}">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading" v-bind:class="{ 'selected': node.bodySelected }" v-on:click="changeColor(node)" >
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <i class="fa fa-comments fa-5x"></i>
+                                                    </div>
+                                                    <div class="col-xs-9 text-right">
+                                                        <div class="huge"></div>
+                                                        <div>{{ node.nodeName }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a v-on:click="services(node)" id="food-{{ node.sessionId }}">
+                                                <div class="panel-footer" v-bind:class="{ 'selected': node.footSelected }">
+                                                    <span class="pull-left">{{ node.ip }}</span>
+                                                    <span class="pull-right"></span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!-- /.row -->
+
+                                <div class="row" id="instanceIndicator"  v-bind:style="{display:isNone}">
+                                    <div class="col-md-12">
+                                        <div class="loader">
+                                            <div class="loading-1"></div>
+                                            <div class="loading-2">{{msg}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /.row -->
+                                <div class="row" id="instance"  v-bind:style="{display:isNone}">
+                                    <div class="col-lg-12">
+                                        <h3>
+                                            <button id="restart" class='btn navbar-right top-nav btn-warning btn-circle' v-on:click="insStart()">重启</button>
+                                            <button id="stop" class='btn navbar-right top-nav btn-danger btn-circle' v-on:click="insStop()" disabled>关闭</button>
+                                        </h3>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="instanceDetail">
+                                                <thead>
+                                                    <tr>
+                                                        <th>服务名</th>
+                                                        <th>状态</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                        <tr  v-for="service in services" id="{{ service.name }}"  name="{{ service.name }}">
+                                                            <td><input type="radio" name="checkedServices" v-on:click="serviceChecked(service)"/>&nbsp;&nbsp;&nbsp;{{ service.name }}</td>
+                                                            <td>{{ service.sStatus }}</td>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!--/.row-->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                    <!-- /.container-fluid -->
+            </div>
+                <!-- /#page-wrapper -->
+        </div>
+            <!-- /#wrapper -->
+        <script src="@routes.Assets.versioned("js/socket.io.js")"></script>
+        <script src="@routes.Assets.versioned("js/moment.min.js")"></script>
+            <!-- jQuery Version 1.11.0 -->
+        <script src="@routes.Assets.versioned("js/jquery-1.11.0.js")"></script>
+
+            <!-- Bootstrap Core JavaScript -->
+        <script src="@routes.Assets.versioned("js/bootstrap.min.js")"></script>
+
+        <script src="@routes.Assets.versioned("js/vue.min.js")"></script>
+
+
+    </body>
+
+</html>
+<script>
+    var socket =  io.connect('http://@agentUri:@agentPort');
+</script>
+<script src="@routes.Assets.versioned("js/serverm.js")"></script>

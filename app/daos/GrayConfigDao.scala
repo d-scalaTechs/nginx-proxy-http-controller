@@ -41,6 +41,7 @@ class GrayConfigs @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     }
   }
   def delete(id: Long): Future[Int] = {
+    println("deleteing id")
     db.run(grayConfigs.filter(_.id === id).delete)
   }
 

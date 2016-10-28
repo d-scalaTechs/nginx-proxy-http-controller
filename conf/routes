@@ -3,13 +3,13 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET         /                                                                controllers.LoginController.login
-GET         /logout                                                          controllers.LoginController.logout
+GET         /                                           controllers.LoginController.login
+GET         /logout                                     controllers.LoginController.logout
 
-GET        /oauth_code_callback                                              controllers.OAuth2Controller.callback(code: Option[String], state: Option[String])
-GET        /oauth-success                                                    controllers.OAuth2Controller.success
+GET         /oauth_code_callback                        controllers.OAuth2Controller.callback(code: Option[String], state: Option[String])
+GET         /oauth-success                              controllers.OAuth2Controller.success
 
-GET         /home                                                            controllers.HomeController.index
+GET         /home                                       controllers.HomeController.index
 # An example controller showing how to use dependency injection
 #GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
@@ -24,33 +24,37 @@ GET         /home                                                            con
 #POST        /user/update/:id                                             controllers.UserController.updateUser(id: Long)
 
 
-GET         /graySystem                                                  controllers.GreyServerController.index
-POST        /graySystem/add                                              controllers.GreyServerController.addGraySystem
-GET         /graySystem/delete/:id                                       controllers.GreyServerController.deleteGraySystem(id : Long)
-POST         /graySystem/:id                                              controllers.GreyServerController.getGraySystem(id: Long)
-POST        /graySystem/update/:id                                       controllers.GreyServerController.updateGraySystem(id:Int)
+GET         /graySystem                                 controllers.GreyServerController.index
+POST        /graySystem/add                             controllers.GreyServerController.addGraySystem
+GET         /graySystem/delete/:id                      controllers.GreyServerController.deleteGraySystem(id : Long)
+POST        /graySystem/:id                             controllers.GreyServerController.getGraySystem(id: Long)
+POST        /graySystem/update/:id                      controllers.GreyServerController.updateGraySystem(id:Int)
 
-GET         /graySystem/conf/:grayType                                   controllers.GreyServerController.indexByConf(grayType: String)
-GET         /graySystem/info/:id                                         controllers.GreyServerController.detail(id: Long)
-POST        /graySystem/statusChange/:status/:id                         controllers.GreyServerController.updateGrayServerStatus(id:Long,status:Int)
+GET         /graySystem/conf/:grayType                  controllers.GreyServerController.indexByConf(grayType: String)
+GET         /graySystem/info/:id                        controllers.GreyServerController.detail(id: Long)
+POST        /graySystem/statusChange/:status/:id        controllers.GreyServerController.updateGrayServerStatus(id:Long,status:Int)
 
-GET         /grayConfig                                                  controllers.GreyConfigController.index
-POST        /grayConfig/add                                              controllers.GreyConfigController.addGrayConfig
-GET         /grayConfig/delete/:id                                       controllers.GreyConfigController.deleteGrayConfig(id : Long)
-GET         /grayConfig/:id                                              controllers.GreyConfigController.getGrayConfig(id: Long)
-POST        /grayConfig/update/:id                                       controllers.GreyConfigController.updateGrayConfig(id: Long)
-POST        /grayConfig/verify/:id/:key/:value                           controllers.GreyConfigController.validate(id: Long,key:String,value:String)
+GET         /grayConfig                                 controllers.GreyConfigController.index
+POST        /grayConfig/add                             controllers.GreyConfigController.addGrayConfig
+GET         /grayConfig/delete/:id                      controllers.GreyConfigController.deleteGrayConfig(id : Long)
+GET         /grayConfig/deleteBatch/:ids                controllers.GreyConfigController.deleteGrayConfigs(ids : String)
+
+GET         /grayConfig/:id                             controllers.GreyConfigController.getGrayConfig(id: Long)
+POST        /grayConfig/update/:id                      controllers.GreyConfigController.updateGrayConfig(id: Long)
+POST        /grayConfig/verify/:id/:key/:value          controllers.GreyConfigController.validate(id: Long,key:String,value:String)
 
 
-GET         /query                                                       controllers.SyncController.page
-POST        /redis/sync                                                  controllers.SyncController.sync
-POST        /verifyRedis/:subSystemId/:value                             controllers.SyncController.verifyRedis(subSystemId:Long,value:String)
-POST        /verifyMysql/:subSystemId/:value                             controllers.SyncController.verifyMysql(subSystemId:Int,value:String)
+GET         /query                                      controllers.SyncController.page
+POST        /redis/sync                                 controllers.SyncController.sync
+POST        /verifyRedis/:subSystemId/:value            controllers.SyncController.verifyRedis(subSystemId:Long,value:String)
+POST        /verifyMysql/:subSystemId/:value            controllers.SyncController.verifyMysql(subSystemId:Int,value:String)
+
+GET        /server/index                               controllers.ServersManageController.index()
 
 #GET         /jdbc                                                       controllers.JdbcController.index
 #POST        /redis/verify/:key/:value                                           controllers.SyncController.verify(key:String,value:String)
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                                                controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                               controllers.Assets.versioned(path="/public", file: Asset)
 
 
 # OAuth2 Stuff

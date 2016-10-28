@@ -1,10 +1,11 @@
 package services
 
+import java.sql.Date
 import javax.inject.Inject
 
 import daos._
 import models._
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /**
  *
@@ -13,13 +14,26 @@ import scala.concurrent.Future
 class GrayConfigService @Inject() (grayConfigs: GrayConfigs)  {
 
   def addGrayConfig(greySystem: GrayConfig): Future[String] = {
-    grayConfigs.add(greySystem)
+    Future{greySystem.value.split("\\s+").map{vale=>
+        grayConfigs.add(models.GrayConfig(0, "staffName",vale,greySystem.systemId,new Date(System.currentTimeMillis())))
+      }
+      "ok"
+    }
   }
 
   def deleteGrayConfig(id: Long): Future[Int] = {
     grayConfigs.delete(id)
   }
 
+  def deleteBatchGrayConfig(ids: String): Future[Int] = {
+    Future{
+      val idInts: List[Int] = ids.split(",").map(el=>el.toInt).toList
+      idInts.foreach{ id=>
+        grayConfigs.delete(id)
+      }
+      idInts.length
+    }
+  }
 
   def updateGrayConfig(grayConfig: GrayConfig): Future[Int] = {
     grayConfigs.update(grayConfig)

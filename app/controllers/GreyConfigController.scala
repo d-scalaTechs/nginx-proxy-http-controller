@@ -44,13 +44,20 @@ class GreyConfigController@Inject()(grayConfig: GrayConfigService,nativeDao:Nati
       data => {
         val newGrayConfig = models.GrayConfig(0, "staffName", data.value,data.systemId,new Date(System.currentTimeMillis()))
         grayConfig.addGrayConfig(newGrayConfig).map(res =>
-          Redirect("/graySystem")
+          Redirect(s"/graySystem/info/${data.systemId}")
         )
       })
   }
 
   def deleteGrayConfig(id: Long) = Action.async { implicit request =>
+    println("deleting id "+ id)
     grayConfig.deleteGrayConfig(id) map { res =>
+      Ok("{\"result\":0}")
+    }
+  }
+
+  def deleteGrayConfigs(ids: String) = Action.async { implicit request =>
+    grayConfig.deleteBatchGrayConfig(ids) map { res =>
       Ok("{\"result\":0}")
     }
   }

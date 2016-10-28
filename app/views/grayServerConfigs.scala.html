@@ -69,11 +69,11 @@
                         <li @if(graySystem.serverType==2){class="active"}>
                             <a href="/graySystem/conf/oss"><i class="fa fa-fw fa-edit"></i>OSS</a>
                         </li>
-                        @*<li>*@
-                            @*<a href="/redis "><i class="fa fa-fw fa-edit"></i>数据同步</a>*@
-                        @*</li>*@
                         <li>
                             <a href="/query "><i class="fa fa-fw fa-edit"></i>一致性</a>
+                        </li>
+                        <li>
+                            <a href="/server/index"><i class="fa fa-fw fa-edit"></i>服务管理</a>
                         </li>
                     </ul>
                 </div>
@@ -152,10 +152,11 @@
                         <!-- /.row -->
 
 
-                    <div>
+                    <div class="row">
                         <div class="col-lg-8">
-                            <h3>灰度名单 <button class="btn  navbar-right top-nav btn-success" data-toggle="modal" data-target="#myModal">新增</button>
+                            <h3>灰度名单<button class="btn  navbar-right top-nav btn-success" data-toggle="modal" data-target="#myModal">新增</button>
                                 <button id="confDelete" class='btn navbar-right top-nav btn-warning btn-circle'>删除</button>
+                                <button id="confBatchDelete" class='btn navbar-right top-nav btn-danger btn-circle'>批量删除</button>
                             </h3>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover" id="confs">
@@ -170,7 +171,7 @@
                                     <tbody>
                                         @for(grayConfig <- grayConfigs){
                                             <tr>
-                                                <td>@grayConfig.id</td>
+                                                <td><input type="checkbox" name="checkedConfigs" value="@grayConfig.id"/>&nbsp;&nbsp;&nbsp;@grayConfig.id</td>
                                                 <td>@grayConfig.key</td>
                                                 <td>@grayConfig.value</td>
                                                 <td>@grayConfig.updatedAt</td>
@@ -267,11 +268,12 @@
                  if(a==true){
                    $.ajax({
                         type : "get",
-                        url : "/grayConfig/delete/"+rowData[0],
+                        url : "/grayConfig/delete/"+rowData[0].substring(rowData[0].length-2),
                         success : function(msg) {
                             var obj = jQuery.parseJSON(msg);
                             if(0== obj.result){
-                                table.fnDeleteRow(indexOfRecord,false,true);
+//                                table.fnDeleteRow(indexOfRecord,false,true);
+                                 window.location.reload()
                             }else{
                                 alert("系统繁忙")
                             }
@@ -281,22 +283,27 @@
 
             });
 
-            $('#confDelete').click(function() {
-                var trobj = table.$('tr.selected');
-                var currentIndex=$("li[class='paginate_button active']").children("a").text();
-                var currentDisplay=$("select[class='form-control input-sm']").val();
-                var indexOfRecord=(currentIndex-1)*currentDisplay+trobj.index();
-                var node= table.fnGetNodes(indexOfRecord);
-                var rowData = table.fnGetData(node);
-                 var a=confirm("删除该灰度名单吗？");
+            $('#confBatchDelete').click(function() {
+                var trobj = $("input:checkbox[name='checkedConfigs']:checked")
+                var confIds = "";
+                $.each(trobj,function(n,confChecked) {
+                    confIds += confChecked.value+",";
+                });
+               confIds= confIds.substring(0,confIds.length-1);
+               if(confIds.length==0){
+                    alert("请选择灰度名单")
+                    return;
+               }
+               var a=confirm("批量删除ID列表为: "+confIds+"灰度名单吗？");
                  if(a==true){
                    $.ajax({
                         type : "get",
-                        url : "/grayConfig/delete/"+rowData[0],
+                        url : "/grayConfig/deleteBatch/"+confIds,
                         success : function(msg) {
                             var obj = jQuery.parseJSON(msg);
                             if(0== obj.result){
-                                table.fnDeleteRow(indexOfRecord,false,true);
+//                              table.fnDeleteRow(indexOfRecord,false,true);
+                                window.location.reload()
                             }else{
                                 alert("系统繁忙")
                             }

@@ -5,9 +5,9 @@ import javax.inject.Inject
 
 import fliter.Oauth2Filter
 import play.api.http.HttpFilters
-class Filters  @Inject() (
-                           oauth: Oauth2Filter
-                         ) extends HttpFilters {
-
-  val filters = Seq(oauth)
-}
+//class Filters  @Inject() (
+//                           oauth: Oauth2Filter
+//                         ) extends HttpFilters {
+//
+//  val filters = Seq(oauth)
+//}
